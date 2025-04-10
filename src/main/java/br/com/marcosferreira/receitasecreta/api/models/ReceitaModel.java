@@ -1,10 +1,16 @@
 package br.com.marcosferreira.receitasecreta.api.models;
 
+import br.com.marcosferreira.receitasecreta.api.enums.CategoriaReceita;
 import com.fasterxml.jackson.annotation.JsonInclude;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,13 +33,14 @@ public class ReceitaModel implements Serializable {
     private String modoPreparo; // Instruções detalhadas para preparar a receita
 
     @Column(name = "tempopreparo", nullable = false)
-    private Integer tempoPreparo; // Tempo necessário para preparar a receita (em minutos)
+    private String tempoPreparo; // Tempo necessário para preparar a receita (em minutos)
 
     @Column(name = "rendimento", nullable = false)
-    private Integer rendimento; // Quantidade de porções que a receita gera
+    private String rendimento; // Quantidade de porções que a receita gera
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "categoria", nullable = false)
-    private String categoria; // Classificação da receita
+    private CategoriaReceita categoria; // Classificação da receita
 
     @Column(name = "dificuldade")
     private String dificuldade; // Nível de dificuldade da receita
@@ -47,9 +54,15 @@ public class ReceitaModel implements Serializable {
     @Column(name = "favorita", nullable = false)
     private Boolean favorita = false; // Indica se a receita está marcada como favorita
 
+    @Column(nullable = false)
+    private LocalDateTime dataCriacao;
+    @Column(nullable = false)
+    private LocalDateTime  dataAlteracao;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private ReceitaIngredienteModel receitaingrediente;
+    @OneToMany(mappedBy = "receita", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<ReceitaIngredienteModel> receitaIngredientes;
 
 
 
@@ -78,27 +91,27 @@ public class ReceitaModel implements Serializable {
         this.modoPreparo = modoPreparo;
     }
 
-    public Integer getTempoPreparo() {
+    public String getTempoPreparo() {
         return tempoPreparo;
     }
 
-    public void setTempoPreparo(Integer tempoPreparo) {
+    public void setTempoPreparo(String tempoPreparo) {
         this.tempoPreparo = tempoPreparo;
     }
 
-    public Integer getRendimento() {
+    public String getRendimento() {
         return rendimento;
     }
 
-    public void setRendimento(Integer rendimento) {
+    public void setRendimento(String rendimento) {
         this.rendimento = rendimento;
     }
 
-    public String getCategoria() {
+    public CategoriaReceita getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(CategoriaReceita categoria) {
         this.categoria = categoria;
     }
 
@@ -134,6 +147,19 @@ public class ReceitaModel implements Serializable {
         this.favorita = favorita;
     }
 
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
 
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
+    }
 }
