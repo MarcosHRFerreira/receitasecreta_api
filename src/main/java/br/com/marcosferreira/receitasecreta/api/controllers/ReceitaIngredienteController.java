@@ -1,6 +1,7 @@
 package br.com.marcosferreira.receitasecreta.api.controllers;
 
 import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteResponse;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteModel;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaIngredienteService;
 import org.apache.logging.log4j.LogManager;
@@ -28,9 +29,9 @@ public class ReceitaIngredienteController {
 
         logger.debug("POST saveReceitaIngrediente receitaIngredienteDto receitaingrediente {}", receitaIngredienteDto);
 
-        List<ReceitaIngredienteModel> ingredientesSalvos=receitaIngredienteService.save(receitaIngredienteDto);
+        ReceitaIngredienteResponse response=receitaIngredienteService.save(receitaIngredienteDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ingredientesSalvos);
+        return ResponseEntity.ok(response);
     }
 
 }

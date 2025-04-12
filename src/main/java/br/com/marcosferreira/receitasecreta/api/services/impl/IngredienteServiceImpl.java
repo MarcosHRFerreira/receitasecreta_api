@@ -5,7 +5,6 @@ import br.com.marcosferreira.receitasecreta.api.dtos.IngredienteRecordDto;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.IngredienteModel;
 import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
-import br.com.marcosferreira.receitasecreta.api.models.ReceitaModel;
 import br.com.marcosferreira.receitasecreta.api.repositories.IngredienteRepository;
 import br.com.marcosferreira.receitasecreta.api.repositories.ProdutoRepository;
 import br.com.marcosferreira.receitasecreta.api.services.IngredienteService;

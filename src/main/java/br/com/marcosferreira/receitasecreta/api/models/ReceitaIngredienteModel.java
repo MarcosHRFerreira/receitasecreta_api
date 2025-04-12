@@ -1,6 +1,7 @@
 package br.com.marcosferreira.receitasecreta.api.models;
 
 import br.com.marcosferreira.receitasecreta.api.enums.UnidadeMedida;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -16,12 +17,14 @@ public class ReceitaIngredienteModel implements Serializable {
     @Column(name = "receitaingredienteId", nullable = false, unique = true)
     private UUID receitaingredienteId = UUID.randomUUID();
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "receitaId", nullable = false)
     private ReceitaModel receita;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ingredienteId", nullable = false)
     private IngredienteModel ingrediente;
 
