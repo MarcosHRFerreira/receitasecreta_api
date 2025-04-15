@@ -36,7 +36,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public ProdutoModel findById(UUID produtoId) {
+    public ProdutoModel findByProdutoId(UUID produtoId) {
 
         ProdutoModel produtoModel = produtoRepository.findByProdutoId(produtoId);
 

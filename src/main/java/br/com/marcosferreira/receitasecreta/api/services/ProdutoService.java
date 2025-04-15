@@ -9,6 +9,6 @@ import java.util.UUID;
 public interface ProdutoService {
 
     ProdutoModel save(ProdutoRecordDto produtoRecordDto);
-    ProdutoModel findById(UUID produtoId);
+    ProdutoModel findByProdutoId(UUID produtoId);
 
 }

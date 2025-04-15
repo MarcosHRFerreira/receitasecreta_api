@@ -7,9 +7,8 @@ import java.util.UUID;
 
 public record ReceitaIngredienteRecordDto(
         UUID receitaId,           // ID da Receita
-        UUID ingredienteId,       // ID do Ingrediente
+        UUID produtoId,       // ID do Ingrediente
         Integer quantidade,
         UnidadeMedida unidadeMedida
-
 ) {
 }

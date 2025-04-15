@@ -5,11 +5,11 @@ import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteDto;
 import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteRecordDto;
 import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteResponse;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
-import br.com.marcosferreira.receitasecreta.api.models.IngredienteModel;
+import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteModel;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaModel;
 import br.com.marcosferreira.receitasecreta.api.repositories.ReceitaIngredienteRepository;
-import br.com.marcosferreira.receitasecreta.api.services.IngredienteService;
+import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaIngredienteService;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
 import org.springframework.stereotype.Service;
@@ -23,73 +23,69 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
 
     final ReceitaIngredienteRepository receitaIngredienteRepository;
     final ReceitaService receitaService;
-    final IngredienteService ingredienteService;
+    final ProdutoService produtoService;
 
-    public ReceitaIngredienteServiceImpl(ReceitaIngredienteRepository receitaIngredienteRepository, ReceitaService receitaService, IngredienteService ingredienteService ) {
+
+    public ReceitaIngredienteServiceImpl(ReceitaIngredienteRepository receitaIngredienteRepository, ReceitaService receitaService, ProdutoService produtoService) {
         this.receitaIngredienteRepository = receitaIngredienteRepository;
         this.receitaService = receitaService;
-        this.ingredienteService = ingredienteService;
+
+        this.produtoService = produtoService;
     }
 
     @Override
     public ReceitaIngredienteResponse save(ReceitaIngredienteDto receitaIngredienteDto) {
 
-        // Buscar a receita pelo ID
         ReceitaModel receitaModel = receitaService.findByReceitaId(receitaIngredienteDto.receitaId());
         if (receitaModel == null) {
             throw new NotFoundException("Receita não encontrada");
         }
 
         List<ReceitaIngredienteModel> ingredientesSalvos = new ArrayList<>();
-        List<String> mensagensDeAviso = new ArrayList<>(); // Lista para armazenar mensagens de aviso
+        List<String> mensagensDeAviso = new ArrayList<>();
 
-        // Processar cada ingrediente no DTO
-        for (ReceitaIngredienteRecordDto ingredienteRecordDto : receitaIngredienteDto.ingredientes()) {
+        for (ReceitaIngredienteRecordDto produtoRecordDto : receitaIngredienteDto.ingredientes()) {
             try {
-                // Validar quantidade
-                if (ingredienteRecordDto.quantidade() == null || ingredienteRecordDto.quantidade() <= 0) {
-                    throw new IllegalArgumentException("A quantidade deve ser maior que zero para o ingrediente com ID: "
-                            + ingredienteRecordDto.ingredienteId());
+
+                if (produtoRecordDto.quantidade() == null || produtoRecordDto.quantidade() <= 0) {
+                    throw new IllegalArgumentException("A quantidade deve ser maior que zero para o produto com ID: "
+                            + produtoRecordDto.produtoId());
                 }
 
-                // Validar unidade de medida
-                if (ingredienteRecordDto.unidadeMedida() == null) {
-                    throw new IllegalArgumentException("A unidade de medida não pode ser nula para o ingrediente com ID: "
-                            + ingredienteRecordDto.ingredienteId());
+
+                if (produtoRecordDto.unidadeMedida() == null) {
+                    throw new IllegalArgumentException("A unidade de medida não pode ser nula para o produto com ID: "
+                            + produtoRecordDto.produtoId());
                 }
 
-                // Buscar o ingrediente pelo ID
-                IngredienteModel ingrediente = ingredienteService.findByIngredienteId(ingredienteRecordDto.ingredienteId());
-                if (ingrediente == null) {
-                    throw new NotFoundException("Ingrediente não encontrado para ID: "
-                            + ingredienteRecordDto.ingredienteId());
+
+                ProdutoModel produto = produtoService.findByProdutoId(produtoRecordDto.produtoId());
+                if (produto == null) {
+                    throw new NotFoundException("Produto não encontrado para ID: "
+                            + produtoRecordDto.produtoId());
                 }
 
-                // Verificar se a associação receita + ingrediente já existe
                 ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findByIngredienteIdReceitaId(
-                        receitaIngredienteDto.receitaId(), ingredienteRecordDto.ingredienteId());
+                        receitaIngredienteDto.receitaId(), produtoRecordDto.produtoId());
                 if (ingredientereceita != null) {
-                    mensagensDeAviso.add("ReceitaId + IngredienteId já existe no cadastro: "
-                            + ingredienteRecordDto.ingredienteId());
-                    continue; // Ignorar este registro e continuar com o próximo
+                    mensagensDeAviso.add("ReceitaId + ProdutoId já existe no cadastro: "
+                            + produtoRecordDto.produtoId());
+                    continue;
                 }
 
-                // Criar o relacionamento entre receita e ingrediente
                 ReceitaIngredienteModel receitaIngrediente = new ReceitaIngredienteModel();
                 receitaIngrediente.setReceita(receitaModel);
-                receitaIngrediente.setIngrediente(ingrediente);
-                receitaIngrediente.setQuantidade(ingredienteRecordDto.quantidade());
-                receitaIngrediente.setUnidadeMedida(ingredienteRecordDto.unidadeMedida());
+                receitaIngrediente.setProduto(produto);
+                receitaIngrediente.setQuantidade(produtoRecordDto.quantidade());
+                receitaIngrediente.setUnidadeMedida(produtoRecordDto.unidadeMedida());
 
-                // Salvar no banco e adicionar à lista de retorno
                 ingredientesSalvos.add(receitaIngredienteRepository.save(receitaIngrediente));
             } catch (Exception e) {
-                // Capturar qualquer erro inesperado e guardar a mensagem de aviso
-                mensagensDeAviso.add("Erro ao processar ingrediente com ID: " + ingredienteRecordDto.ingredienteId()
+
+                mensagensDeAviso.add("Erro ao processar produto com ID: " + produtoRecordDto.produtoId()
                         + ". Detalhes: " + e.getMessage());
             }
         }
-
         return new ReceitaIngredienteResponse(ingredientesSalvos,mensagensDeAviso);
     }
 

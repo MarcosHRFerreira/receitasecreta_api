@@ -25,8 +25,8 @@ public class ReceitaIngredienteModel implements Serializable {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ingredienteId", nullable = false)
-    private IngredienteModel ingrediente;
+    @JoinColumn(name = "produtoId", nullable = false)
+    private ProdutoModel produto;
 
 
     @Column(name = "quantidade", nullable = false)
@@ -52,13 +52,6 @@ public class ReceitaIngredienteModel implements Serializable {
         this.receita = receita;
     }
 
-    public IngredienteModel getIngrediente() {
-        return ingrediente;
-    }
-
-    public void setIngrediente(IngredienteModel ingrediente) {
-        this.ingrediente = ingrediente;
-    }
 
     public Integer getQuantidade() {
         return quantidade;
@@ -76,4 +69,11 @@ public class ReceitaIngredienteModel implements Serializable {
         this.unidadeMedida = unidadeMedida;
     }
 
+    public ProdutoModel getProduto() {
+        return produto;
+    }
+
+    public void setProduto(ProdutoModel produto) {
+        this.produto = produto;
+    }
 }

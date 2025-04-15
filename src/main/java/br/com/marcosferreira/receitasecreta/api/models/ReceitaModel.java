@@ -1,6 +1,7 @@
 package br.com.marcosferreira.receitasecreta.api.models;
 
 import br.com.marcosferreira.receitasecreta.api.enums.CategoriaReceita;
+import br.com.marcosferreira.receitasecreta.api.enums.Dificuldade;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,35 +25,36 @@ public class ReceitaModel implements Serializable {
     @Id
     @Column(name = "receitaId", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID receitaId; // UUID como identificador único
+    private UUID receitaId;
 
     @Column(name = "nomereceita", nullable = false)
-    private String nomeReceita; // Nome da receita
+    private String nomeReceita;
 
     @Column(name = "modopreparo", nullable = false)
-    private String modoPreparo; // Instruções detalhadas para preparar a receita
+    private String modoPreparo;
 
     @Column(name = "tempopreparo", nullable = false)
-    private String tempoPreparo; // Tempo necessário para preparar a receita (em minutos)
+    private String tempoPreparo;
 
     @Column(name = "rendimento", nullable = false)
-    private String rendimento; // Quantidade de porções que a receita gera
+    private String rendimento;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "categoria", nullable = false)
-    private CategoriaReceita categoria; // Classificação da receita
+    private CategoriaReceita categoria;
 
     @Column(name = "dificuldade")
-    private String dificuldade; // Nível de dificuldade da receita
+    @Enumerated(EnumType.STRING)
+    private Dificuldade dificuldade;
 
     @Column(name = "notas")
-    private String notas; // Notas ou ajustes personalizados
+    private String notas;
 
     @Column(name = "tags")
-    private String tags; // Tags para facilitar a busca
+    private String tags;
 
     @Column(name = "favorita", nullable = false)
-    private Boolean favorita = false; // Indica se a receita está marcada como favorita
+    private Boolean favorita = false;
 
     @Column(nullable = false)
     private LocalDateTime dataCriacao;
@@ -63,8 +65,6 @@ public class ReceitaModel implements Serializable {
     @OneToMany(mappedBy = "receita", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
     private Set<ReceitaIngredienteModel> receitaIngredientes;
-
-
 
     public UUID getReceitaId() {
         return receitaId;
@@ -115,12 +115,20 @@ public class ReceitaModel implements Serializable {
         this.categoria = categoria;
     }
 
-    public String getDificuldade() {
+    public Dificuldade getDificuldade() {
         return dificuldade;
     }
 
-    public void setDificuldade(String dificuldade) {
+    public void setDificuldade(Dificuldade dificuldade) {
         this.dificuldade = dificuldade;
+    }
+
+    public Set<ReceitaIngredienteModel> getReceitaIngredientes() {
+        return receitaIngredientes;
+    }
+
+    public void setReceitaIngredientes(Set<ReceitaIngredienteModel> receitaIngredientes) {
+        this.receitaIngredientes = receitaIngredientes;
     }
 
     public String getNotas() {

@@ -25,47 +25,47 @@ public class ProdutoModel implements Serializable {
     @Id
     @Column(name = "produtoId", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID produtoId; // UUID como identificador único
+    private UUID produtoId;
 
     @Column(name = "nome", nullable = false)
-    private String nome; // Nome do ingrediente
+    private String nome;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "unidademedida", nullable = false)
-
-    private UnidadeMedida unidademedida; // Tipo de unidade de medida (gramas, litros, etc.)
+    private UnidadeMedida unidademedida;
 
 
     @Column(name = "custounidade")
-    private BigDecimal custoporunidade; // Custo por unidade (opcional)
+    private BigDecimal custoporunidade;
 
     @Column(name = "datavalidade")
     @Temporal(TemporalType.DATE)
-    private Date dataValidade; // Data de validade (para perecíveis)
+    private Date dataValidade;
 
 
     @Column(name = "categoriaproduto")
     @Enumerated(EnumType.STRING)
-    private CategoriaProduto categoriaproduto; // Classificação do ingrediente
+    private CategoriaProduto categoriaproduto;
 
     @Column(name = "fornecedor")
-    private String fornecedor; // Nome ou referência ao fornecedor
+    private String fornecedor;
 
     @Column(name = "descricao")
-    private String descricao; // Informações extras ou observações
+    private String descricao;
 
     @Column(name = "codigobarras")
-    private String codigobarras; // Código de barras (opcional)
+    private String codigobarras;
 
     @Column(nullable = false)
     private LocalDateTime dataCriacao;
     @Column(nullable = false)
     private LocalDateTime  dataAlteracao;
 
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SUBSELECT)
-    private Set<IngredienteModel> ingrediente;
+    private Set<ReceitaIngredienteModel> receitaIngredientes;
 
     public UUID getProdutoId() {
         return produtoId;
@@ -156,11 +156,11 @@ public class ProdutoModel implements Serializable {
         this.dataAlteracao = dataAlteracao;
     }
 
-    public Set<IngredienteModel> getIngrediente() {
-        return ingrediente;
+    public Set<ReceitaIngredienteModel> getReceitaIngredientes() {
+        return receitaIngredientes;
     }
 
-    public void setIngrediente(Set<IngredienteModel> ingrediente) {
-        this.ingrediente = ingrediente;
+    public void setReceitaIngredientes(Set<ReceitaIngredienteModel> receitaIngredientes) {
+        this.receitaIngredientes = receitaIngredientes;
     }
 }

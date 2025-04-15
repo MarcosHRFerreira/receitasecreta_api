@@ -5,7 +5,7 @@ import br.com.marcosferreira.receitasecreta.api.enums.UnidadeMedida;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.UUID;
+
 
 public record ProdutoRecordDto(
         String nome,

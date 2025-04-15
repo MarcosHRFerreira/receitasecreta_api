@@ -4,7 +4,6 @@ import br.com.marcosferreira.receitasecreta.api.configs.CustomBeanUtils;
 import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaRecordDto;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaModel;
-import br.com.marcosferreira.receitasecreta.api.repositories.IngredienteRepository;
 import br.com.marcosferreira.receitasecreta.api.repositories.ReceitaRepository;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
 import org.springframework.stereotype.Service;
