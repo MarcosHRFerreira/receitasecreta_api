@@ -13,4 +13,6 @@ public interface ReceitaService {
 
 
     ReceitaModel findByReceitaId(UUID receitaId);
+
+    ReceitaModel update(ReceitaRecordDto receitaRecordDto, UUID receitaId);
 }

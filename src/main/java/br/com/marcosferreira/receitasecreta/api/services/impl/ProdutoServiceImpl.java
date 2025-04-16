@@ -46,4 +46,20 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         return produtoModel;
     }
+
+    @Override
+    public ProdutoModel update(ProdutoRecordDto produtoRecordDto, UUID produtoId) {
+
+        ProdutoModel produtoModel = produtoRepository.findByProdutoId(produtoId);
+
+        if(produtoModel==null){
+            throw new NotFoundException("Produto ID: " + produtoId + "Não existe");
+        }
+
+        CustomBeanUtils.copyProperties(produtoRecordDto,produtoModel);
+
+        produtoModel.setDataAlteracao(LocalDateTime.now(ZoneId.of("UTC")));
+
+        return produtoRepository.save(produtoModel);
+    }
 }

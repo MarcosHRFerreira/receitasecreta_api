@@ -13,4 +13,5 @@ public interface ReceitaIngredienteService {
     ReceitaIngredienteResponse save(ReceitaIngredienteDto receitaIngredienteDto);
 
 
+    ReceitaIngredienteResponse update(ReceitaIngredienteDto receitaIngredienteDto, UUID receitaId);
 }

@@ -1,15 +1,19 @@
 package br.com.marcosferreira.receitasecreta.api.controllers;
 
+import br.com.marcosferreira.receitasecreta.api.dtos.ProdutoRecordDto;
 import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaRecordDto;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
+import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Validated
 @RestController
 @RequestMapping("/receitas")
 public class ReceitaController {
@@ -23,7 +27,7 @@ public class ReceitaController {
     }
 
     @PostMapping
-    public ResponseEntity<Object>save(@RequestBody ReceitaRecordDto receitaRecordDto){
+    public ResponseEntity<Object>save(@RequestBody @Valid ReceitaRecordDto receitaRecordDto){
 
         logger.debug("POST saveReceita receitaRecordDto receita {}",receitaRecordDto);
 
@@ -34,6 +38,16 @@ public class ReceitaController {
     public ResponseEntity<Object>getOne(@PathVariable(value = "receitaId")UUID receitaId){
 
         return ResponseEntity.status(HttpStatus.OK).body(receitaService.findByReceitaId(receitaId));
+
+    }
+
+
+    @PutMapping("/{receitaId}")
+    public ResponseEntity<Object>update(@PathVariable(value = "receitaId") UUID receitaId,@RequestBody ReceitaRecordDto receitaRecordDto){
+
+        logger.debug("PUT updade receitaRecordDto received {} ", receitaId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(receitaService.update(receitaRecordDto,receitaId));
 
     }
 

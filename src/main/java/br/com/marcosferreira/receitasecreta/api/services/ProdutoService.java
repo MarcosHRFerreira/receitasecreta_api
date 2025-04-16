@@ -11,4 +11,5 @@ public interface ProdutoService {
     ProdutoModel save(ProdutoRecordDto produtoRecordDto);
     ProdutoModel findByProdutoId(UUID produtoId);
 
+    ProdutoModel update(ProdutoRecordDto produtoRecordDto, UUID produtoId);
 }

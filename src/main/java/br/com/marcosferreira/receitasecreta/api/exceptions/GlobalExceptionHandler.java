@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -110,7 +111,30 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorRecordResponse);
     }
 
+//    @ExceptionHandler(DataIntegrityViolationException.class)
+//    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+//        return ResponseEntity.status(HttpStatus.CONFLICT)
+//                .body("Erro ao processar a solicitação, existe alguma informação que ja contenha no banco e na regra ela tem que ser única.");
+//   }
 
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+
+        String mensagemErroBruta = ex.getMessage();
+        String mensagemExtraida = extrairParteInicial(mensagemErroBruta);
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("Erro ao processar a solicitação: " + mensagemExtraida);
+    }
+
+    private String extrairParteInicial(String mensagemErro) {
+        int indiceFim = mensagemErro.indexOf("<EOL>");
+        if (indiceFim != -1) {
+            return mensagemErro.substring(0, indiceFim).trim();
+        }
+        return mensagemErro;
+    }
 
 
 

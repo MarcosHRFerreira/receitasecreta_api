@@ -47,4 +47,20 @@ public class ReceitaServiceImpl implements ReceitaService {
 
         return receitaModel;
     }
+
+    @Override
+    public ReceitaModel update(ReceitaRecordDto receitaRecordDto, UUID receitaId) {
+
+        ReceitaModel receitaModel = receitaRepository.findByReceitaId(receitaId);
+
+        if(receitaModel==null){
+            throw  new NotFoundException("Receita ID: " + receitaId + " não existe");
+        }
+
+        CustomBeanUtils.copyProperties(receitaRecordDto,receitaModel);
+
+        receitaModel.setDataAlteracao(LocalDateTime.now(ZoneId.of("UTC")));
+
+        return receitaRepository.save(receitaModel);
+    }
 }

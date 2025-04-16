@@ -12,7 +12,6 @@ import org.hibernate.annotations.FetchMode;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,21 +26,16 @@ public class ProdutoModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID produtoId;
 
-    @Column(name = "nome", nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "unidademedida", nullable = false)
+    @Column(nullable = false)
     private UnidadeMedida unidademedida;
 
 
     @Column(name = "custounidade")
     private BigDecimal custoporunidade;
-
-    @Column(name = "datavalidade")
-    @Temporal(TemporalType.DATE)
-    private Date dataValidade;
-
 
     @Column(name = "categoriaproduto")
     @Enumerated(EnumType.STRING)
@@ -91,21 +85,12 @@ public class ProdutoModel implements Serializable {
         this.unidademedida = unidademedida;
     }
 
-
     public BigDecimal getCustoporunidade() {
         return custoporunidade;
     }
 
     public void setCustoporunidade(BigDecimal custoporunidade) {
         this.custoporunidade = custoporunidade;
-    }
-
-    public Date getDataValidade() {
-        return dataValidade;
-    }
-
-    public void setDataValidade(Date dataValidade) {
-        this.dataValidade = dataValidade;
     }
 
     public CategoriaProduto getCategoriaproduto() {
