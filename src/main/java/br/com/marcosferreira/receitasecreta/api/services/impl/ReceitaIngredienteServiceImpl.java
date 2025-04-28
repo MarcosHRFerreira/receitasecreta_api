@@ -1,10 +1,8 @@
 package br.com.marcosferreira.receitasecreta.api.services.impl;
 
 
-import br.com.marcosferreira.receitasecreta.api.configs.CustomBeanUtils;
-import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteDto;
-import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteRecordDto;
-import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaIngredienteResponse;
+
+import br.com.marcosferreira.receitasecreta.api.dtos.*;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteModel;
@@ -14,6 +12,7 @@ import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaIngredienteService;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
 
         ReceitaModel receitaModel = receitaService.findByReceitaId(receitaIngredienteDto.receitaId());
         if (receitaModel == null) {
-            throw new NotFoundException("Receita não encontrada");
+            throw new NotFoundException("Receita ID não encontrada");
         }
 
         List<ReceitaIngredienteModel> ingredientesSalvos = new ArrayList<>();
@@ -84,15 +83,15 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
                 ingredientesSalvos.add(receitaIngredienteRepository.save(receitaIngrediente));
             } catch (Exception e) {
 
-                mensagensDeAviso.add("Erro ao processar produto com ID: " + produtoRecordDto.produtoId()
-                        + ". Detalhes: " + e.getMessage());
+                mensagensDeAviso.add("Erro com ID: " + produtoRecordDto.produtoId()
+                        + ". Detalhes Save: " + e.getMessage());
             }
         }
         return new ReceitaIngredienteResponse(ingredientesSalvos,mensagensDeAviso);
     }
 
     @Override
-    public ReceitaIngredienteResponse update(ReceitaIngredienteDto receitaIngredienteDto, UUID receitaId) {
+    public ReceitaIngredienteResponse update(ReceitaIngredienteDto receitaIngredienteDto) {
 
         ReceitaModel receitaModel = receitaService.findByReceitaId(receitaIngredienteDto.receitaId());
         if (receitaModel == null) {
@@ -137,10 +136,41 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
             } catch (Exception e) {
 
                 mensagensDeAviso.add("Erro ao processar produto com ID: " + produtoRecordDto.produtoId()
-                        + ". Detalhes: " + e.getMessage());
+                        + ". Detalhes Update: " + e.getMessage());
             }
         }
         return new ReceitaIngredienteResponse(ingredientesSalvos,mensagensDeAviso);
+    }
+
+    @Override
+    @Transactional
+    public ReceitaIngredienteResponse delete(ReceitaIngredienteDeleteDto receitaIngredienteDeleteDto) {
+        ReceitaModel receitaModel = receitaService.findByReceitaId(receitaIngredienteDeleteDto.receitaId());
+        if (receitaModel == null) {
+            throw new NotFoundException("Receita não encontrada");
+        }
+
+        List<String> mensagensDeAviso = new ArrayList<>();
+
+        for (ReceitaIngredienteDeleteRecordDto produtoRecordDto : receitaIngredienteDeleteDto.ingredientes()) {
+            try {
+
+                ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findByIngredienteIdReceitaId(
+                        receitaIngredienteDeleteDto.receitaId(), produtoRecordDto.produtoId());
+                if (ingredientereceita == null) {
+                    mensagensDeAviso.add("ReceitaId :" + receitaIngredienteDeleteDto.receitaId() + " ProdutoId : " + produtoRecordDto.produtoId() + "  Não existe no cadastro : ");
+                    continue;
+                }
+
+                receitaIngredienteRepository.delete(ingredientereceita);
+                mensagensDeAviso.add("Ingrediente com ProdutoId: " + produtoRecordDto.produtoId() + " excluído com sucesso.");
+            } catch (Exception e) {
+
+                mensagensDeAviso.add("Erro ao processar produto com ID: " + produtoRecordDto.produtoId()
+                        + ". Detalhes Delete: " + e.getMessage());
+            }
+        }
+        return new ReceitaIngredienteResponse(null,mensagensDeAviso);
     }
 
 }

@@ -2,6 +2,8 @@ package br.com.marcosferreira.receitasecreta.api.services.impl;
 
 import br.com.marcosferreira.receitasecreta.api.configs.CustomBeanUtils;
 import br.com.marcosferreira.receitasecreta.api.dtos.ProdutoRecordDto;
+
+import br.com.marcosferreira.receitasecreta.api.exceptions.NoValidException;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
 import br.com.marcosferreira.receitasecreta.api.repositories.ProdutoRepository;
@@ -27,6 +29,8 @@ public class ProdutoServiceImpl implements ProdutoService {
 
        var produtoModel= new ProdutoModel();
 
+       findByNome(produtoRecordDto.nome());
+
         CustomBeanUtils.copyProperties(produtoRecordDto,produtoModel);
 
         produtoModel.setDataCriacao(LocalDateTime.now(ZoneId.of("UTC")));
@@ -48,12 +52,27 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public ProdutoModel findByNome(String nome) {
+        ProdutoModel produtoModel = produtoRepository.findByNome(nome);
+
+        if(produtoModel!=null){
+            throw  new NoValidException("Erro: Já existe um produto com esse Nome : " + nome);
+        }
+        return produtoModel;
+    }
+
+    @Override
     public ProdutoModel update(ProdutoRecordDto produtoRecordDto, UUID produtoId) {
 
         ProdutoModel produtoModel = produtoRepository.findByProdutoId(produtoId);
+        ProdutoModel produtoModel1 = produtoRepository.findByNome(produtoRecordDto.nome());
 
-        if(produtoModel==null){
-            throw new NotFoundException("Produto ID: " + produtoId + "Não existe");
+        if(produtoModel ==null){
+            throw new NotFoundException("Produto ID: " + produtoId + " não existe");
+        }
+
+        if (produtoModel1 != null && produtoModel1.getProdutoId() != produtoModel.getProdutoId()) {
+            throw new NoValidException("Nome do produto, já existe cadastrado para outro produto");
         }
 
         CustomBeanUtils.copyProperties(produtoRecordDto,produtoModel);

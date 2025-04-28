@@ -11,4 +11,7 @@ public interface ProdutoRepository extends JpaRepository<ProdutoModel, UUID> {
 
     @Query(value="select * from TB_PRODUTOS where produto_id = :produtoId LIMIT 1", nativeQuery = true)
     ProdutoModel findByProdutoId(UUID produtoId);
+
+    @Query(value="select * from TB_PRODUTOS where LOWER(nome) = LOWER(:nome) LIMIT 1", nativeQuery = true)
+    ProdutoModel findByNome(String nome);
 }
