@@ -4,7 +4,7 @@ package br.com.marcosferreira.receitasecreta.api.services.impl;
 
 import br.com.marcosferreira.receitasecreta.api.dtos.*;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
-import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
+import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteId;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteModel;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaModel;
 import br.com.marcosferreira.receitasecreta.api.repositories.ReceitaIngredienteRepository;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -25,7 +24,6 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
     final ReceitaIngredienteRepository receitaIngredienteRepository;
     final ReceitaService receitaService;
     final ProdutoService produtoService;
-
 
     public ReceitaIngredienteServiceImpl(ReceitaIngredienteRepository receitaIngredienteRepository, ReceitaService receitaService, ProdutoService produtoService) {
         this.receitaIngredienteRepository = receitaIngredienteRepository;
@@ -53,30 +51,23 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
                             + produtoRecordDto.produtoId());
                 }
 
-
                 if (produtoRecordDto.unidadeMedida() == null) {
                     throw new IllegalArgumentException("A unidade de medida não pode ser nula para o produto com ID: "
                             + produtoRecordDto.produtoId());
                 }
 
+                ReceitaIngredienteId id = new ReceitaIngredienteId();
+                id.setReceitaId(receitaIngredienteDto.receitaId());
+                id.setIngredienteId(produtoRecordDto.produtoId());
 
-                ProdutoModel produto = produtoService.findByProdutoId(produtoRecordDto.produtoId());
-                if (produto == null) {
-                    throw new NotFoundException("Produto não encontrado para ID: "
-                            + produtoRecordDto.produtoId());
-                }
-
-                ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findByIngredienteIdReceitaId(
-                        receitaIngredienteDto.receitaId(), produtoRecordDto.produtoId());
+                ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findById(id).orElse(null);
                 if (ingredientereceita != null) {
-                    mensagensDeAviso.add("ReceitaId + ProdutoId já existe no cadastro: "
-                            + produtoRecordDto.produtoId());
+                    mensagensDeAviso.add("ReceitaId + ProdutoId já existe no cadastro: " + produtoRecordDto.produtoId());
                     continue;
                 }
 
                 ReceitaIngredienteModel receitaIngrediente = new ReceitaIngredienteModel();
-                receitaIngrediente.setReceita(receitaModel);
-                receitaIngrediente.setProduto(produto);
+                receitaIngrediente.setId(id);
                 receitaIngrediente.setQuantidade(produtoRecordDto.quantidade());
                 receitaIngrediente.setUnidadeMedida(produtoRecordDto.unidadeMedida());
 
@@ -93,84 +84,71 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
     @Override
     public ReceitaIngredienteResponse update(ReceitaIngredienteDto receitaIngredienteDto) {
 
-        ReceitaModel receitaModel = receitaService.findByReceitaId(receitaIngredienteDto.receitaId());
-        if (receitaModel == null) {
-            throw new NotFoundException("Receita não encontrada");
-        }
-
         List<ReceitaIngredienteModel> ingredientesSalvos = new ArrayList<>();
         List<String> mensagensDeAviso = new ArrayList<>();
 
         for (ReceitaIngredienteRecordDto produtoRecordDto : receitaIngredienteDto.ingredientes()) {
             try {
+                ReceitaIngredienteId id = new ReceitaIngredienteId();
+                id.setReceitaId(receitaIngredienteDto.receitaId());
+                id.setIngredienteId(produtoRecordDto.produtoId());
 
-                if (produtoRecordDto.quantidade() != null && produtoRecordDto.quantidade() <= 0) {
-                    throw new IllegalArgumentException("A quantidade deve ser maior que zero para o produto com ID: "
-                            + produtoRecordDto.produtoId());
-                }
-
-                ProdutoModel produto = produtoService.findByProdutoId(produtoRecordDto.produtoId());
-                if (produto == null) {
-                    throw new NotFoundException("Produto não encontrado para ID: "
-                            + produtoRecordDto.produtoId());
-                }
-
-                ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findByIngredienteIdReceitaId(
-                        receitaIngredienteDto.receitaId(), produtoRecordDto.produtoId());
+                ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findById(id).orElse(null);
                 if (ingredientereceita == null) {
-                    mensagensDeAviso.add("ReceitaId + ProdutoId Não existe no cadastro: "
-                            + produtoRecordDto.produtoId());
+                    mensagensDeAviso.add("ReceitaId + ProdutoId Não existe no cadastro: " + produtoRecordDto.produtoId());
                     continue;
                 }
 
-                ingredientereceita.setReceita(receitaModel);
-                ingredientereceita.setProduto(produto);
-                if(produtoRecordDto.quantidade()!=null) {
+
+                if (produtoRecordDto.quantidade() == null || produtoRecordDto.quantidade() <= 0) {
+                    throw new IllegalArgumentException("A quantidade deve ser maior que zero para o produto com ID: "
+                            + produtoRecordDto.produtoId());
+                }else{
                     ingredientereceita.setQuantidade(produtoRecordDto.quantidade());
                 }
-                if(produtoRecordDto.unidadeMedida()!=null) {
+
+                if (produtoRecordDto.unidadeMedida() == null) {
+                    throw new IllegalArgumentException("A unidade de medida não pode ser nula para o produto com ID: "
+                            + produtoRecordDto.produtoId());
+                }else {
                     ingredientereceita.setUnidadeMedida(produtoRecordDto.unidadeMedida());
                 }
 
                 ingredientesSalvos.add(receitaIngredienteRepository.save(ingredientereceita));
             } catch (Exception e) {
-
                 mensagensDeAviso.add("Erro ao processar produto com ID: " + produtoRecordDto.produtoId()
                         + ". Detalhes Update: " + e.getMessage());
             }
         }
-        return new ReceitaIngredienteResponse(ingredientesSalvos,mensagensDeAviso);
+        return new ReceitaIngredienteResponse(ingredientesSalvos, mensagensDeAviso);
     }
 
     @Override
     @Transactional
     public ReceitaIngredienteResponse delete(ReceitaIngredienteDeleteDto receitaIngredienteDeleteDto) {
-        ReceitaModel receitaModel = receitaService.findByReceitaId(receitaIngredienteDeleteDto.receitaId());
-        if (receitaModel == null) {
-            throw new NotFoundException("Receita não encontrada");
-        }
-
         List<String> mensagensDeAviso = new ArrayList<>();
 
         for (ReceitaIngredienteDeleteRecordDto produtoRecordDto : receitaIngredienteDeleteDto.ingredientes()) {
             try {
+                ReceitaIngredienteId id = new ReceitaIngredienteId();
+                id.setReceitaId(receitaIngredienteDeleteDto.receitaId());
+                id.setIngredienteId(produtoRecordDto.produtoId());
 
-                ReceitaIngredienteModel ingredientereceita = receitaIngredienteRepository.findByIngredienteIdReceitaId(
-                        receitaIngredienteDeleteDto.receitaId(), produtoRecordDto.produtoId());
-                if (ingredientereceita == null) {
-                    mensagensDeAviso.add("ReceitaId :" + receitaIngredienteDeleteDto.receitaId() + " ProdutoId : " + produtoRecordDto.produtoId() + "  Não existe no cadastro : ");
-                    continue;
+                if (receitaIngredienteRepository.existsById(id)) {
+                    receitaIngredienteRepository.deleteById(id);
+                    mensagensDeAviso.add("Ingrediente com ProdutoId: " + produtoRecordDto.produtoId() + " excluído com sucesso.");
+                } else {
+                    mensagensDeAviso.add("ReceitaId :" + receitaIngredienteDeleteDto.receitaId() +
+                            " ProdutoId : " + produtoRecordDto.produtoId() +
+                            "  Não existe no cadastro.");
                 }
-
-                receitaIngredienteRepository.delete(ingredientereceita);
-                mensagensDeAviso.add("Ingrediente com ProdutoId: " + produtoRecordDto.produtoId() + " excluído com sucesso.");
             } catch (Exception e) {
-
                 mensagensDeAviso.add("Erro ao processar produto com ID: " + produtoRecordDto.produtoId()
                         + ". Detalhes Delete: " + e.getMessage());
             }
         }
-        return new ReceitaIngredienteResponse(null,mensagensDeAviso);
+        return new ReceitaIngredienteResponse(null, mensagensDeAviso);
+
     }
 
 }

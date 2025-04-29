@@ -3,15 +3,10 @@ package br.com.marcosferreira.receitasecreta.api.models;
 import br.com.marcosferreira.receitasecreta.api.enums.CategoriaReceita;
 import br.com.marcosferreira.receitasecreta.api.enums.Dificuldade;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
+
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -61,10 +56,7 @@ public class ReceitaModel implements Serializable {
     @Column(nullable = false)
     private LocalDateTime  dataAlteracao;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "receita", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SUBSELECT)
-    private Set<ReceitaIngredienteModel> receitaIngredientes;
+
 
     public UUID getReceitaId() {
         return receitaId;
@@ -81,7 +73,6 @@ public class ReceitaModel implements Serializable {
     public void setNomeReceita(String nomeReceita) {
         this.nomeReceita = nomeReceita;
     }
-
 
     public String getModoPreparo() {
         return modoPreparo;
@@ -121,14 +112,6 @@ public class ReceitaModel implements Serializable {
 
     public void setDificuldade(Dificuldade dificuldade) {
         this.dificuldade = dificuldade;
-    }
-
-    public Set<ReceitaIngredienteModel> getReceitaIngredientes() {
-        return receitaIngredientes;
-    }
-
-    public void setReceitaIngredientes(Set<ReceitaIngredienteModel> receitaIngredientes) {
-        this.receitaIngredientes = receitaIngredientes;
     }
 
     public String getNotas() {

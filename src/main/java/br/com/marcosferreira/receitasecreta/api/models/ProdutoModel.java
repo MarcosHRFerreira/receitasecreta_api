@@ -4,15 +4,11 @@ package br.com.marcosferreira.receitasecreta.api.models;
 import br.com.marcosferreira.receitasecreta.api.enums.CategoriaProduto;
 import br.com.marcosferreira.receitasecreta.api.enums.UnidadeMedida;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -55,11 +51,6 @@ public class ProdutoModel implements Serializable {
     @Column(nullable = false)
     private LocalDateTime  dataAlteracao;
 
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SUBSELECT)
-    private Set<ReceitaIngredienteModel> receitaIngredientes;
 
     public UUID getProdutoId() {
         return produtoId;
@@ -141,11 +132,5 @@ public class ProdutoModel implements Serializable {
         this.dataAlteracao = dataAlteracao;
     }
 
-    public Set<ReceitaIngredienteModel> getReceitaIngredientes() {
-        return receitaIngredientes;
-    }
 
-    public void setReceitaIngredientes(Set<ReceitaIngredienteModel> receitaIngredientes) {
-        this.receitaIngredientes = receitaIngredientes;
-    }
 }

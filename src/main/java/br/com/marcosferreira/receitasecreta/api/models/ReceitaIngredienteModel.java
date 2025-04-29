@@ -1,11 +1,9 @@
 package br.com.marcosferreira.receitasecreta.api.models;
 
 import br.com.marcosferreira.receitasecreta.api.enums.UnidadeMedida;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "TB_RECEITA_INGREDIENTE")
@@ -13,20 +11,9 @@ import java.util.UUID;
 public class ReceitaIngredienteModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "receitaingredienteId", nullable = false, unique = true)
-    private UUID receitaingredienteId = UUID.randomUUID();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "receitaId", nullable = false)
-    private ReceitaModel receita;
-
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "produtoId", nullable = false)
-    private ProdutoModel produto;
+    @EmbeddedId
+    private ReceitaIngredienteId id;
 
 
     @Column(name = "quantidade", nullable = false)
@@ -36,22 +23,14 @@ public class ReceitaIngredienteModel implements Serializable {
     @Column(name = "unidademedida", nullable = false)
     private UnidadeMedida unidadeMedida;
 
-    public UUID getReceitaingredienteId() {
-        return receitaingredienteId;
+    // Getters e Setters
+    public ReceitaIngredienteId getId() {
+        return id;
     }
 
-    public void setReceitaingredienteId(UUID receitaingredienteId) {
-        this.receitaingredienteId = receitaingredienteId;
+    public void setId(ReceitaIngredienteId id) {
+        this.id = id;
     }
-
-    public ReceitaModel getReceita() {
-        return receita;
-    }
-
-    public void setReceita(ReceitaModel receita) {
-        this.receita = receita;
-    }
-
 
     public Integer getQuantidade() {
         return quantidade;
@@ -69,11 +48,4 @@ public class ReceitaIngredienteModel implements Serializable {
         this.unidadeMedida = unidadeMedida;
     }
 
-    public ProdutoModel getProduto() {
-        return produto;
-    }
-
-    public void setProduto(ProdutoModel produto) {
-        this.produto = produto;
-    }
 }
