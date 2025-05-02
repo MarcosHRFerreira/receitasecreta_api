@@ -1,12 +1,15 @@
 package br.com.marcosferreira.receitasecreta.api.controllers;
 
-import br.com.marcosferreira.receitasecreta.api.dtos.ProdutoRecordDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ProdutoRecordDto;
+import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
 import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
 import br.com.marcosferreira.receitasecreta.api.validations.ProdutoValidator;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -30,7 +33,6 @@ public class ProdutoController {
         this.produtoService = produtoService;
         this.produtoValidator = produtoValidator;
     }
-
     @PostMapping
     public ResponseEntity<Object>save(@Parameter(description = "Dados do produto") @RequestBody @Valid ProdutoRecordDto produtoRecordDto, Errors errors){
 
@@ -39,7 +41,6 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(produtoRecordDto));
 
     }
-
     @GetMapping("/{produtoId}")
     public ResponseEntity<Object>getOne(@PathVariable(value = "produtoId")UUID produtoId){
 
@@ -48,7 +49,6 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(produtoService.findByProdutoId(produtoId));
 
     }
-
     @PutMapping("/{produtoId}")
     public ResponseEntity<Object>update(@PathVariable(value = "produtoId") UUID produtoId,@RequestBody ProdutoRecordDto produtoRecordDto){
 
@@ -57,7 +57,10 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.OK).body(produtoService.update(produtoRecordDto,produtoId));
 
     }
+    @GetMapping
+    public ResponseEntity<Page<ProdutoModel>> getAll(Pageable pageable)                                                     {
 
-
+        return ResponseEntity.status(HttpStatus.OK).body(produtoService.findAll(pageable));
+    }
 
 }

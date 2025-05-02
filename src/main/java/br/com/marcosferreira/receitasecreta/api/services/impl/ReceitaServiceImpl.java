@@ -1,11 +1,13 @@
 package br.com.marcosferreira.receitasecreta.api.services.impl;
 
 import br.com.marcosferreira.receitasecreta.api.configs.CustomBeanUtils;
-import br.com.marcosferreira.receitasecreta.api.dtos.ReceitaRecordDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ReceitaRecordDto;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaModel;
 import br.com.marcosferreira.receitasecreta.api.repositories.ReceitaRepository;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -62,5 +64,10 @@ public class ReceitaServiceImpl implements ReceitaService {
         receitaModel.setDataAlteracao(LocalDateTime.now(ZoneId.of("UTC")));
 
         return receitaRepository.save(receitaModel);
+    }
+
+    @Override
+    public Page<ReceitaModel> findAll(Pageable pageable) {
+        return receitaRepository.findAll(pageable);
     }
 }

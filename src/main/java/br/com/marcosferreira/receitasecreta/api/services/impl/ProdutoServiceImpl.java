@@ -1,13 +1,15 @@
 package br.com.marcosferreira.receitasecreta.api.services.impl;
 
 import br.com.marcosferreira.receitasecreta.api.configs.CustomBeanUtils;
-import br.com.marcosferreira.receitasecreta.api.dtos.ProdutoRecordDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ProdutoRecordDto;
 
 import br.com.marcosferreira.receitasecreta.api.exceptions.NoValidException;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
 import br.com.marcosferreira.receitasecreta.api.repositories.ProdutoRepository;
 import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -80,5 +82,10 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoModel.setDataAlteracao(LocalDateTime.now(ZoneId.of("UTC")));
 
         return produtoRepository.save(produtoModel);
+    }
+
+    @Override
+    public Page<ProdutoModel> findAll(Pageable pageable) {
+        return produtoRepository.findAll(pageable);
     }
 }

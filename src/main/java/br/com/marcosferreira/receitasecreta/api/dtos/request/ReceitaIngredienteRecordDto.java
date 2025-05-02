@@ -1,4 +1,4 @@
-package br.com.marcosferreira.receitasecreta.api.dtos;
+package br.com.marcosferreira.receitasecreta.api.dtos.request;
 
 import br.com.marcosferreira.receitasecreta.api.enums.UnidadeMedida;
 import io.swagger.v3.oas.annotations.media.Schema;

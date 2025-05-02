@@ -2,7 +2,11 @@ package br.com.marcosferreira.receitasecreta.api.services.impl;
 
 
 
-import br.com.marcosferreira.receitasecreta.api.dtos.*;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ReceitaIngredienteDeleteDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ReceitaIngredienteDeleteRecordDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ReceitaIngredienteDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ReceitaIngredienteRecordDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.response.ReceitaIngredienteResponse;
 import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteId;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteModel;
@@ -11,6 +15,8 @@ import br.com.marcosferreira.receitasecreta.api.repositories.ReceitaIngredienteR
 import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaIngredienteService;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -149,6 +155,11 @@ public class ReceitaIngredienteServiceImpl implements ReceitaIngredienteService 
         }
         return new ReceitaIngredienteResponse(null, mensagensDeAviso);
 
+    }
+
+    @Override
+    public Page<ReceitaIngredienteModel> findAll(Pageable pageable) {
+        return receitaIngredienteRepository.findAll(pageable);
     }
 
 }

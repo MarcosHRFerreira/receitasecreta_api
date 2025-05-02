@@ -1,4 +1,4 @@
-package br.com.marcosferreira.receitasecreta.api.dtos;
+package br.com.marcosferreira.receitasecreta.api.dtos.response;
 
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaIngredienteModel;
 

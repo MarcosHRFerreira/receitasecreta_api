@@ -1,6 +1,6 @@
 package br.com.marcosferreira.receitasecreta.api.validations;
 
-import br.com.marcosferreira.receitasecreta.api.dtos.ProdutoRecordDto;
+import br.com.marcosferreira.receitasecreta.api.dtos.request.ProdutoRecordDto;
 import org.apache.logging.log4j.LogManager;
 
 import org.apache.logging.log4j.Logger;

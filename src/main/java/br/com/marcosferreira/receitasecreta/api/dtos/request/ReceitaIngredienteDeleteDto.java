@@ -1,4 +1,4 @@
-package br.com.marcosferreira.receitasecreta.api.dtos;
+package br.com.marcosferreira.receitasecreta.api.dtos.request;
 
 import java.util.List;
 import java.util.UUID;

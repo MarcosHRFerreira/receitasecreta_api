@@ -27,3 +27,8 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
     org.hibernate: INFO
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:batman batman batman}
