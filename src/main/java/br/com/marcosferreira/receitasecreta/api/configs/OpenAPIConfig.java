@@ -7,7 +7,7 @@ public class OpenAPIConfig {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .group("br.com.TriagemCheck")
+                .group("br.com.marcosferreira.receitasecreta.api")
                 .pathsToMatch("/**")
                 .build();
     }

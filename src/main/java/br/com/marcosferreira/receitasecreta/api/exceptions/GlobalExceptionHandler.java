@@ -111,13 +111,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorRecordResponse);
     }
 
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-//        return ResponseEntity.status(HttpStatus.CONFLICT)
-//                .body("Erro ao processar a solicitação, existe alguma informação que ja contenha no banco e na regra ela tem que ser única.");
-//   }
-
-
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
 
@@ -135,6 +128,8 @@ public class GlobalExceptionHandler {
         }
         return mensagemErro;
     }
+
+
 
 
 

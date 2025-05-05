@@ -19,7 +19,6 @@ public class SecurityConfigurations {
 
     private final SecurityFilter securityFilter;
 
-    // Injeção de dependência via construtor
     public SecurityConfigurations(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
     }
@@ -32,7 +31,9 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/receitasecreta/produtos").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/receitasecreta/receitas").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/receitasecreta/users").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

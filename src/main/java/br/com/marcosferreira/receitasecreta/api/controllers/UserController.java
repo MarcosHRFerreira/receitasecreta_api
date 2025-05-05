@@ -2,7 +2,7 @@ package br.com.marcosferreira.receitasecreta.api.controllers;
 
 
 import br.com.marcosferreira.receitasecreta.api.models.User;
-import br.com.marcosferreira.receitasecreta.api.repositories.UserRepository;
+import br.com.marcosferreira.receitasecreta.api.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,18 +14,17 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 
+    final UserService userService;
 
-    final UserRepository repository;
-
-    public UserController(UserRepository repository) {
-        this.repository = repository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAllUsers(){
-        List<User> users = this.repository.findAll();
-
+    public ResponseEntity<Object> getAllUsers() {
+        List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
+
 
 }

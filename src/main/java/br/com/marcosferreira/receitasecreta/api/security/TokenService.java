@@ -19,7 +19,7 @@ import java.util.Optional;
 public class TokenService {
 
     private final String secret;
-    private static final Duration EXPIRATION_TIME = Duration.ofHours(2); // Configuração flexível de expiração
+    private static final Duration EXPIRATION_TIME = Duration.ofHours(2);
 
     public TokenService(@Value("${api.security.token.secret}") String secret) {
         this.secret = secret;
@@ -29,7 +29,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("auth-api")
+                    .withIssuer("receitasecreta-api")
                     .withSubject(user.getLogin())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
@@ -43,7 +43,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return Optional.ofNullable(
                     JWT.require(algorithm)
-                            .withIssuer("auth-api")
+                            .withIssuer("receitasecreta-api")
                             .build()
                             .verify(token)
                             .getSubject());

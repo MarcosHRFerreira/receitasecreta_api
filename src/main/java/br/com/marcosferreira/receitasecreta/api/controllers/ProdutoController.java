@@ -1,14 +1,12 @@
 package br.com.marcosferreira.receitasecreta.api.controllers;
 
 import br.com.marcosferreira.receitasecreta.api.dtos.request.ProdutoRecordDto;
-import br.com.marcosferreira.receitasecreta.api.models.ProdutoModel;
 import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
 import br.com.marcosferreira.receitasecreta.api.validations.ProdutoValidator;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.Map;
 import java.util.UUID;
 
 @Validated
@@ -58,9 +58,17 @@ public class ProdutoController {
 
     }
     @GetMapping
-    public ResponseEntity<Page<ProdutoModel>> getAll(Pageable pageable)                                                     {
+    public ResponseEntity<Object> getAll(Pageable pageable)                                                     {
+       try{
+            return ResponseEntity.status(HttpStatus.OK).body(produtoService.findAll(pageable));
 
-        return ResponseEntity.status(HttpStatus.OK).body(produtoService.findAll(pageable));
+       } catch (Exception e) {
+           Map<String, String> errorMessage = Map.of("message", "Credenciais inválidas. Verifique seu login e senha.");
+           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+       }
+
+
     }
+
 
 }
