@@ -46,6 +46,7 @@ public class ProdutoController {
 
         logger.debug("Get produtos getOne received {} ",produtoId);
 
+        
         return ResponseEntity.status(HttpStatus.OK).body(produtoService.findByProdutoId(produtoId));
 
     }
