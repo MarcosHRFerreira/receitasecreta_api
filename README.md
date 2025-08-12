@@ -39,6 +39,11 @@ O **Organizador de Receitas** é um sistema desenvolvido para facilitar a gestã
 - **PostgreSQL** (Banco de Dados)
 - **React.js ou Angular** (Front-end)
 
+## 📁 Estrutura do Projeto
+O projeto está organizado em duas pastas principais:
+- **BACKEND/**: Contém toda a API REST desenvolvida em Spring Boot
+- **FRONTEND/**: Contém os arquivos e documentação relacionados ao front-end
+
 ## 📦 Como Executar o Projeto
 
 ### 📌 Pré-requisitos
@@ -48,6 +53,24 @@ O **Organizador de Receitas** é um sistema desenvolvido para facilitar a gestã
 - [Node.js](https://nodejs.org/) (caso tenha um front-end integrado)
 
 ### 🔧 Instruções para Rodar
+
+#### Backend
 1. Clone o repositório:
    ```sh
    git clone https://github.com/seu-usuario/organizador-receitas.git
+   ```
+
+2. Navegue até a pasta do backend:
+   ```sh
+   cd receitasecreta_api/BACKEND
+   ```
+
+3. Execute o projeto:
+   ```sh
+   ./mvnw spring-boot:run
+   ```
+
+#### Frontend
+1. Navegue até a pasta do frontend:
+   ```sh
+   cd receitasecreta_api/FRONTEND

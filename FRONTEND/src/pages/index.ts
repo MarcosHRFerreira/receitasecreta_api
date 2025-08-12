@@ -1,0 +1,9 @@
+export { default as Login } from './Login';
+export { default as Register } from './Register';
+export { default as Dashboard } from './Dashboard';
+export { default as ReceitasList } from './ReceitasList';
+export { default as ReceitaDetail } from './ReceitaDetail';
+export { default as ReceitaForm } from './ReceitaForm';
+export { default as ProdutosList } from './ProdutosList';
+export { default as ProdutoForm } from './ProdutoForm';
+export { default as UsersList } from './UsersList';
