@@ -11,11 +11,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 @Table(name = "users")
 @Entity(name = "users")
+@EntityListeners(br.com.marcosferreira.receitasecreta.api.configs.AuditInterceptor.class)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,11 +34,33 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "password_changed_at")
+    private LocalDateTime passwordChangedAt;
+
+    @Column(name = "password_changed_by")
+    private String passwordChangedBy;
+
     public User(String login, String password, String email, UserRole role){
         this.login = login;
         this.password = password;
         this.email = email;
         this.role = role;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        passwordChangedAt = LocalDateTime.now();
+        passwordChangedBy = this.login;
+    }
+
+    public void updatePassword(String newPassword, String changedBy) {
+        this.password = newPassword;
+        this.passwordChangedAt = LocalDateTime.now();
+        this.passwordChangedBy = changedBy;
     }
 
     @Override

@@ -139,12 +139,13 @@ const UsersList: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="search-input" className="block text-sm font-medium text-gray-700 mb-2">
                 Buscar
               </label>
               <div className="relative">
                 <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
+                  id="search-input"
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -156,11 +157,12 @@ const UsersList: React.FC = () => {
 
             {/* Role Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="role-select" className="block text-sm font-medium text-gray-700 mb-2">
                 Função
               </label>
               <div className="flex space-x-2">
                 <select
+                  id="role-select"
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value)}
                   className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white"

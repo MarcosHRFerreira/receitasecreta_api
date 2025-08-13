@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useReceitas, useDeleteReceita } from '../hooks/useApi';
+import { useAuth } from '../contexts/AuthContextDefinition';
 import { Loading, Modal } from '../components';
 import PageHeader from '../components/ui/PageHeader';
 import Card from '../components/ui/Card';
@@ -20,6 +21,7 @@ import {
 import type { Receita } from '../types';
 
 const ReceitasList: React.FC = () => {
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('categoria') || '');
@@ -32,6 +34,12 @@ const ReceitasList: React.FC = () => {
   const deleteReceitaMutation = useDeleteReceita();
 
   const receitas = receitasData?.content || [];
+
+  // Função para verificar se o usuário atual NÃO é o autor da receita (para desabilitar botões)
+  const isNotReceitaOwner = (receita: Receita): boolean => {
+    if (!user || !receita.userId) return true; // Se não há usuário ou userId, desabilitar
+    return receita.userId !== user.id; // Desabilitar se o usuário NÃO é o proprietário
+  };
 
   // Filtrar receitas
   const filteredReceitas = receitas.filter((receita) => {
@@ -264,16 +272,30 @@ const ReceitasList: React.FC = () => {
                             Ver
                           </Button>
                         </Link>
-                        <Link to={`/receitas/${receita.receitaId}/editar`} className="flex-1">
-                          <Button variant="secondary" size="sm" icon={<EditIcon />} className="w-full">
+                        {isNotReceitaOwner(receita) ? (
+                          <Button 
+                            variant="secondary" 
+                            size="sm" 
+                            icon={<EditIcon />} 
+                            className="w-full opacity-50 cursor-not-allowed" 
+                            disabled
+                          >
                             Editar
                           </Button>
-                        </Link>
+                        ) : (
+                          <Link to={`/receitas/${receita.receitaId}/editar`} className="flex-1">
+                            <Button variant="secondary" size="sm" icon={<EditIcon />} className="w-full">
+                              Editar
+                            </Button>
+                          </Link>
+                        )}
                         <Button
                           variant="danger"
                           size="sm"
                           icon={<DeleteIcon />}
                           onClick={() => openDeleteModal(receita)}
+                          disabled={isNotReceitaOwner(receita)}
+                          className={isNotReceitaOwner(receita) ? 'opacity-50 cursor-not-allowed' : ''}
                         />
                       </div>
                     </Card.Content>
@@ -306,16 +328,30 @@ const ReceitasList: React.FC = () => {
                               Ver
                             </Button>
                           </Link>
-                          <Link to={`/receitas/${receita.receitaId}/editar`}>
-                            <Button variant="secondary" size="sm" icon={<EditIcon />}>
+                          {isNotReceitaOwner(receita) ? (
+                            <Button 
+                              variant="secondary" 
+                              size="sm" 
+                              icon={<EditIcon />}
+                              disabled
+                              className="opacity-50 cursor-not-allowed"
+                            >
                               Editar
                             </Button>
-                          </Link>
+                          ) : (
+                            <Link to={`/receitas/${receita.receitaId}/editar`}>
+                              <Button variant="secondary" size="sm" icon={<EditIcon />}>
+                                Editar
+                              </Button>
+                            </Link>
+                          )}
                           <Button
                             variant="danger"
                             size="sm"
                             icon={<DeleteIcon />}
                             onClick={() => openDeleteModal(receita)}
+                            disabled={isNotReceitaOwner(receita)}
+                            className={isNotReceitaOwner(receita) ? 'opacity-50 cursor-not-allowed' : ''}
                           />
                         </div>
                       </div>

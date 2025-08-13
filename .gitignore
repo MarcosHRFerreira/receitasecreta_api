@@ -1,6 +1,7 @@
 # Backend (Spring Boot)
 BACKEND/HELP.md
 BACKEND/target/
+BACKEND/.env
 target/
 !BACKEND/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

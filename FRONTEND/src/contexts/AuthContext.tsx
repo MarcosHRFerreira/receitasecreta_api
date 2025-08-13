@@ -72,7 +72,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       
       // Garantir um tempo mínimo de loading para evitar flickering
-      await new Promise(resolve => setTimeout(resolve, 200));
+      if (process.env.NODE_ENV !== 'test') {
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
       setIsLoading(false);
       console.log('🔐 [AUTH] Inicialização da autenticação concluída.');
     };

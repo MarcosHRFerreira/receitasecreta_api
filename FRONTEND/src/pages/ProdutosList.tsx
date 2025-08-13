@@ -16,9 +16,11 @@ import {
   DeleteIcon, 
   RefreshIcon 
 } from '../components/icons';
+import { useAuth } from '../contexts/AuthContextDefinition';
 import type { Produto } from '../types';
 
 const ProdutosList: React.FC = () => {
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('categoria') || '');
@@ -28,6 +30,12 @@ const ProdutosList: React.FC = () => {
 
   const { data: produtosData, isLoading, error } = useProdutos();
   const deleteProdutoMutation = useDeleteProduto();
+
+  // Função para verificar se o usuário atual NÃO é o autor do produto (para desabilitar botões)
+  const isNotProdutoOwner = (produto: Produto): boolean => {
+    if (!user || !produto.userId) return true; // Se não há usuário ou userId, desabilitar
+    return produto.userId !== user.id; // Desabilitar se o usuário NÃO é o proprietário
+  };
 
   const produtos = produtosData?.content || [];
 
@@ -267,16 +275,30 @@ const ProdutosList: React.FC = () => {
                       </div>
                       
                       <div className="flex space-x-2">
-                        <Link to={`/produtos/${produto.id}/editar`} className="flex-1">
-                          <Button variant="outline" size="sm" icon={<EditIcon />} className="w-full">
+                        {isNotProdutoOwner(produto) ? (
+                          <Button 
+                            variant="secondary" 
+                            size="sm" 
+                            icon={<EditIcon />} 
+                            className="flex-1 opacity-50 cursor-not-allowed" 
+                            disabled
+                          >
                             Editar
                           </Button>
-                        </Link>
+                        ) : (
+                          <Link to={`/produtos/${produto.id}/editar`} className="flex-1">
+                            <Button variant="outline" size="sm" icon={<EditIcon />} className="w-full">
+                              Editar
+                            </Button>
+                          </Link>
+                        )}
                         <Button
                           variant="danger"
                           size="sm"
                           icon={<DeleteIcon />}
                           onClick={() => openDeleteModal(produto)}
+                          disabled={isNotProdutoOwner(produto)}
+                          className={isNotProdutoOwner(produto) ? 'opacity-50 cursor-not-allowed' : ''}
                         />
                       </div>
                     </Card.Content>
@@ -306,16 +328,30 @@ const ProdutosList: React.FC = () => {
                           </div>
                         </div>
                         <div className="flex space-x-2 ml-4">
-                          <Link to={`/produtos/${produto.id}/editar`}>
-                            <Button variant="outline" size="sm" icon={<EditIcon />}>
+                          {isNotProdutoOwner(produto) ? (
+                            <Button 
+                              variant="secondary" 
+                              size="sm" 
+                              icon={<EditIcon />} 
+                              className="opacity-50 cursor-not-allowed" 
+                              disabled
+                            >
                               Editar
                             </Button>
-                          </Link>
+                          ) : (
+                            <Link to={`/produtos/${produto.id}/editar`}>
+                              <Button variant="outline" size="sm" icon={<EditIcon />}>
+                                Editar
+                              </Button>
+                            </Link>
+                          )}
                           <Button
                             variant="danger"
                             size="sm"
                             icon={<DeleteIcon />}
                             onClick={() => openDeleteModal(produto)}
+                            disabled={isNotProdutoOwner(produto)}
+                            className={isNotProdutoOwner(produto) ? 'opacity-50 cursor-not-allowed' : ''}
                           />
                         </div>
                       </div>

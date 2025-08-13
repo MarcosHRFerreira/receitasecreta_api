@@ -18,4 +18,6 @@ public interface ReceitaService {
     ReceitaModel update(ReceitaRecordDto receitaRecordDto, UUID receitaId);
 
     Page<ReceitaModel> findAll(Pageable pageable);
+    
+    void delete(UUID receitaId);
 }

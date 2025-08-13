@@ -55,17 +55,18 @@ export interface User {
 }
 
 export interface Produto {
-  id: string;
-  nome: string;
-  categoria: CategoriaProduto;
+  produtoId: string;
+  nomeProduto: string;
   categoriaproduto: CategoriaProduto;
   unidademedida: UnidadeMedida;
   custoporunidade: number;
   fornecedor: string;
   descricao: string;
   codigobarras?: string;
+  observacao?: string;
   createdAt: string;
   updatedAt: string;
+  userId?: string;
 }
 
 export interface Receita {
@@ -81,6 +82,8 @@ export interface Receita {
   favorita: boolean;
   dataCriacao: string;
   dataAlteracao: string;
+  userId?: string;
+  createdBy?: string;
   ingredientes?: ReceitaIngrediente[];
 }
 
@@ -98,14 +101,20 @@ export interface ReceitaIngrediente {
 
 export interface UserRequest {
   login: string;
+  email: string;
   password: string;
   role?: UserRole;
 }
 
 export interface ProdutoRequest {
   nome: string;
-  categoria: CategoriaProduto;
-  descricao?: string;
+  unidademedida: UnidadeMedida;
+  custoporunidade: number;
+  categoriaproduto: CategoriaProduto;
+  fornecedor: string;
+  descricao: string;
+  codigobarras?: string;
+  observacao?: string;
 }
 
 export interface ReceitaRequest {
@@ -199,6 +208,7 @@ export interface UserAuthRequest {
 
 export interface RegisterFormData {
   login: string;
+  email: string;
   password: string;
   confirmPassword: string;
 }
@@ -211,6 +221,7 @@ export interface ProdutoFormData {
   fornecedor: string;
   descricao: string;
   codigobarras?: string;
+  observacao?: string;
 }
 
 export interface ReceitaFormData {
@@ -238,4 +249,39 @@ export interface ApiError {
   status: number;
   timestamp: string;
   path: string;
+}
+
+export interface ApiErrorResponse {
+  response?: {
+    data?: {
+      message?: string;
+    };
+    status?: number;
+  };
+  message?: string;
+}
+
+// Tipos para recuperação de senha
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface TokenValidationResponse {
+  valid: boolean;
+  message: string;
+}
+
+export interface ForgotPasswordFormData {
+  email: string;
+}
+
+export interface ResetPasswordFormData {
+  newPassword: string;
+  confirmPassword: string;
 }

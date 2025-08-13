@@ -7,3 +7,5 @@ export { default as ReceitaForm } from './ReceitaForm';
 export { default as ProdutosList } from './ProdutosList';
 export { default as ProdutoForm } from './ProdutoForm';
 export { default as UsersList } from './UsersList';
+export { default as ForgotPassword } from './ForgotPassword';
+export { default as ResetPassword } from './ResetPassword';

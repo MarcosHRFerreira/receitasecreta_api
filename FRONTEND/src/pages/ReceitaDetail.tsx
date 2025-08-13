@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useReceita, useDeleteReceita, useIngredientesByReceita } from '../hooks/useApi';
+import { useAuth } from '../contexts/AuthContextDefinition';
 import { Loading, Modal } from '../components';
 import type { ReceitaIngrediente } from '../types';
 
 const ReceitaDetail: React.FC = () => {
+  const { user } = useAuth();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -14,6 +16,12 @@ const ReceitaDetail: React.FC = () => {
   const { data: receita, isLoading, error } = useReceita(id || '');
   const { data: ingredientes, isLoading: loadingIngredientes } = useIngredientesByReceita(id || '');
   const deleteReceitaMutation = useDeleteReceita();
+
+  // Função para verificar se o usuário atual NÃO é o autor da receita (para desabilitar botões)
+  const isNotReceitaOwner = (): boolean => {
+    if (!user || !receita?.userId) return true; // Se não há usuário ou userId, desabilitar
+    return receita.userId !== user.id; // Desabilitar se o usuário NÃO é o proprietário
+  };
 
   const handleDelete = async () => {
     if (!receita) return;
@@ -113,15 +121,29 @@ const ReceitaDetail: React.FC = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mt-4 sm:mt-0">
-            <Link
-              to={`/receitas/${receita.receitaId}/editar`}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-center"
-            >
-              ✏️ Editar
-            </Link>
+            {isNotReceitaOwner() ? (
+              <button
+                disabled
+                className="bg-gray-400 text-white px-4 py-2 rounded-md cursor-not-allowed opacity-50 text-center"
+              >
+                ✏️ Editar
+              </button>
+            ) : (
+              <Link
+                to={`/receitas/${receita.receitaId}/editar`}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-center"
+              >
+                ✏️ Editar
+              </Link>
+            )}
             <button
               onClick={() => setDeleteModalOpen(true)}
-              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
+              disabled={isNotReceitaOwner()}
+              className={`px-4 py-2 rounded-md transition-colors ${
+                isNotReceitaOwner() 
+                  ? 'bg-gray-400 text-white cursor-not-allowed opacity-50'
+                  : 'bg-red-600 text-white hover:bg-red-700'
+              }`}
             >
               🗑️ Excluir
             </button>

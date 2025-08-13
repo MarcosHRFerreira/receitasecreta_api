@@ -1,18 +1,18 @@
 import React from 'react';
 
-interface IconProps {
+interface IconProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
   size?: number;
 }
 
-export const PlusIcon: React.FC<IconProps> = ({ className = '', size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+export const PlusIcon: React.FC<IconProps> = ({ className = '', size = 20, ...props }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
     <path d="M12 5v14M5 12h14" />
   </svg>
 );
 
-export const SearchIcon: React.FC<IconProps> = ({ className = '', size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+export const SearchIcon: React.FC<IconProps> = ({ className = '', size = 20, ...props }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
     <circle cx="11" cy="11" r="8" />
     <path d="m21 21-4.35-4.35" />
   </svg>
@@ -41,8 +41,8 @@ export const ViewIcon: React.FC<IconProps> = ({ className = '', size = 20 }) => 
   </svg>
 );
 
-export const ChefHatIcon: React.FC<IconProps> = ({ className = '', size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+export const ChefHatIcon: React.FC<IconProps> = ({ className = '', size = 20, ...props }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}>
     <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z" />
     <line x1="6" y1="17" x2="18" y2="17" />
   </svg>

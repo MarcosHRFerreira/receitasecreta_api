@@ -19,6 +19,6 @@ public interface ProdutoService {
     ProdutoModel update(ProdutoRecordDto produtoRecordDto, UUID produtoId);
 
     Page<ProdutoModel> findAll(Pageable pageable);
-
-
+    
+    void delete(UUID produtoId);
 }

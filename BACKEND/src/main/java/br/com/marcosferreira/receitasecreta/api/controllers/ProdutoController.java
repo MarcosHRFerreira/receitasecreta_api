@@ -1,6 +1,7 @@
 package br.com.marcosferreira.receitasecreta.api.controllers;
 
 import br.com.marcosferreira.receitasecreta.api.dtos.request.ProdutoRecordDto;
+import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.services.ProdutoService;
 import br.com.marcosferreira.receitasecreta.api.validations.ProdutoValidator;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -59,17 +60,20 @@ public class ProdutoController {
 
     }
     @GetMapping
-    public ResponseEntity<Object> getAll(Pageable pageable)                                                     {
+    public ResponseEntity<Object> getAll(Pageable pageable) {
        try{
             return ResponseEntity.status(HttpStatus.OK).body(produtoService.findAll(pageable));
-
        } catch (Exception e) {
            Map<String, String> errorMessage = Map.of("message", "Credenciais inválidas. Verifique seu login e senha.");
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
        }
-
-
     }
-
-
+    
+    @DeleteMapping("/{produtoId}")
+    public ResponseEntity<Object> delete(@PathVariable(value = "produtoId") UUID produtoId) {
+        logger.debug("DELETE deleteProduto produtoId {}", produtoId);
+        
+        produtoService.delete(produtoId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

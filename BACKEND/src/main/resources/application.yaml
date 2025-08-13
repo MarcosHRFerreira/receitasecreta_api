@@ -10,13 +10,21 @@ spring:
     password: admin
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate  # Mudança crítica: de 'update' para 'validate'
       dialect: org.hibernate.dialect.PostgreSQLDialect
       jdbc:
         lob.non-contextual-creation: true
     properties:
       hibernate:
         show_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+    sql-migration-prefix: V
+    sql-migration-separator: __
+    sql-migration-suffixes: .sql
   output:
     ansi:
       enabled: Always

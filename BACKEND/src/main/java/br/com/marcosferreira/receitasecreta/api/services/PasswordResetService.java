@@ -6,6 +6,7 @@ import br.com.marcosferreira.receitasecreta.api.repositories.PasswordResetTokenR
 import br.com.marcosferreira.receitasecreta.api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +25,9 @@ public class PasswordResetService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    
+    @Autowired
+    private AuditService auditService;
     
     private static final int MAX_ATTEMPTS_PER_HOUR = 3;
     
@@ -101,11 +105,18 @@ public class PasswordResetService {
         // Atualizar senha
         String encryptedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encryptedPassword);
+        
+        // Atualizar campos de auditoria de senha
+        user.updatePassword(encryptedPassword, "PASSWORD_RESET");
+        
         userRepository.save(user);
         
         // Marcar token como usado
         resetToken.setUsed(true);
         tokenRepository.save(resetToken);
+        
+        // Registrar auditoria
+        auditService.auditPasswordChange(user.getId(), "RESET", "PASSWORD_RESET");
         
         log.info("Senha redefinida com sucesso para usuário: {}", resetToken.getUserLogin());
     }

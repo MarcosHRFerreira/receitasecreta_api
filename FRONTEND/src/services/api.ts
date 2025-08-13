@@ -15,7 +15,10 @@ import type {
   ReceitaIngredienteDeleteRequest,
   AuthResponse,
   PageResponse,
-  PageRequest
+  PageRequest,
+  ForgotPasswordRequest,
+  ResetPasswordRequest,
+  TokenValidationResponse
 } from '../types';
 
 const BASE_URL = 'http://localhost:8082/receitasecreta';
@@ -236,6 +239,44 @@ class ApiService {
   async getIngredientesByReceita(receitaId: string): Promise<ReceitaIngrediente[]> {
     const response: AxiosResponse<ReceitaIngrediente[]> = await this.api.get(`/receitasingredientes/receita/${receitaId}`);
     return response.data;
+  }
+
+  // Métodos para recuperação de senha
+  async forgotPassword(data: ForgotPasswordRequest): Promise<void> {
+    console.log('🌐 [API] Solicitando recuperação de senha para:', data.email);
+    try {
+      const response: AxiosResponse<{ message: string }> = await this.api.post('/auth/forgot-password', data);
+      console.log('🌐 [API] Recuperação de senha solicitada com sucesso:', response.data);
+    } catch (error) {
+      console.error('🌐 [API] Erro ao solicitar recuperação de senha:', error);
+      throw error;
+    }
+  }
+
+  async resetPassword(data: ResetPasswordRequest): Promise<void> {
+    console.log('🌐 [API] Redefinindo senha com token:', data.token);
+    try {
+      const response: AxiosResponse<{ message: string }> = await this.api.post('/auth/reset-password', {
+        token: data.token,
+        newPassword: data.newPassword
+      });
+      console.log('🌐 [API] Senha redefinida com sucesso:', response.data);
+    } catch (error) {
+      console.error('🌐 [API] Erro ao redefinir senha:', error);
+      throw error;
+    }
+  }
+
+  async validateResetToken(token: string): Promise<TokenValidationResponse> {
+    console.log('🌐 [API] Validando token de recuperação:', token);
+    try {
+      const response: AxiosResponse<TokenValidationResponse> = await this.api.get(`/auth/validate-reset-token/${token}`);
+      console.log('🌐 [API] Token validado:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro ao validar token:', error);
+      throw error;
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 package br.com.marcosferreira.receitasecreta.api.controllers;
 
 import br.com.marcosferreira.receitasecreta.api.dtos.request.ReceitaRecordDto;
+import br.com.marcosferreira.receitasecreta.api.exceptions.NotFoundException;
 import br.com.marcosferreira.receitasecreta.api.models.ReceitaModel;
 import br.com.marcosferreira.receitasecreta.api.services.ReceitaService;
 import jakarta.validation.Valid;
@@ -52,10 +53,15 @@ public class ReceitaController {
 
     }
     @GetMapping
-    public ResponseEntity<Page<ReceitaModel>> getAll(Pageable pageable)                                                     {
-
+    public ResponseEntity<Page<ReceitaModel>> getAll(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(receitaService.findAll(pageable));
     }
 
-
+    @DeleteMapping("/{receitaId}")
+    public ResponseEntity<Object> delete(@PathVariable(value = "receitaId") UUID receitaId) {
+        logger.debug("DELETE deleteReceita receitaId {}", receitaId);
+        
+        receitaService.delete(receitaId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

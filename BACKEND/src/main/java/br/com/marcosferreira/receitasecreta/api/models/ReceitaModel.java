@@ -13,7 +13,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "TB_RECEITAS")
-
+@EntityListeners(br.com.marcosferreira.receitasecreta.api.configs.AuditInterceptor.class)
 public class ReceitaModel implements Serializable {
 
 
@@ -56,6 +56,21 @@ public class ReceitaModel implements Serializable {
     private LocalDateTime dataCriacao;
     @Column(nullable = false)
     private LocalDateTime  dataAlteracao;
+
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
+    @Column(name = "created_by", nullable = false)
+    private String createdBy;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
 
 
 
@@ -154,5 +169,45 @@ public class ReceitaModel implements Serializable {
 
     public void setDataAlteracao(LocalDateTime dataAlteracao) {
         this.dataAlteracao = dataAlteracao;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 }

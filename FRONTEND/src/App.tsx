@@ -13,7 +13,9 @@ import {
   ReceitaForm,
   ProdutosList,
   ProdutoForm,
-  UsersList
+  UsersList,
+  ForgotPassword,
+  ResetPassword
 } from './pages';
 
 // Configuração do React Query
@@ -67,6 +69,24 @@ const AppRoutes: React.FC = () => {
             isAuthenticated ? <Navigate to="/dashboard" replace /> : 
             <Layout>
               <Register />
+            </Layout>
+          } 
+        />
+        <Route 
+          path="/forgot-password" 
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" replace /> : 
+            <Layout>
+              <ForgotPassword />
+            </Layout>
+          } 
+        />
+        <Route 
+          path="/reset-password/:token" 
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" replace /> : 
+            <Layout>
+              <ResetPassword />
             </Layout>
           } 
         />

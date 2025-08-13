@@ -46,6 +46,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/receitasingredientes/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                        .requestMatchers("/api/audit/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

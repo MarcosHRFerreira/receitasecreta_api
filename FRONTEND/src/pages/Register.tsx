@@ -96,6 +96,30 @@ const Register: React.FC = () => {
               )}
             </div>
 
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                E-mail *
+              </label>
+              <input
+                {...register('email', { 
+                  required: 'E-mail é obrigatório',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'E-mail deve ter um formato válido'
+                  }
+                })}
+                type="email"
+                id="email"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                placeholder="Digite seu e-mail"
+                disabled={isLoading}
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+              )}
+            </div>
+
             {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">

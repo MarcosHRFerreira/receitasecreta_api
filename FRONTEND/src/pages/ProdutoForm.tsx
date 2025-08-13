@@ -24,7 +24,8 @@ const ProdutoForm: React.FC = () => {
          custoporunidade: 0,
          fornecedor: '',
          descricao: '',
-         codigobarras: ''
+         codigobarras: '',
+         observacao: ''
        }
   });
 
@@ -38,7 +39,8 @@ const ProdutoForm: React.FC = () => {
           custoporunidade: produto.custoporunidade,
           fornecedor: produto.fornecedor,
           descricao: produto.descricao || '',
-          codigobarras: produto.codigobarras || ''
+          codigobarras: produto.codigobarras || '',
+          observacao: produto.observacao || ''
         });
     }
   }, [produto, reset, isEditing]);
@@ -50,8 +52,13 @@ const ProdutoForm: React.FC = () => {
     try {
       const produtoRequest = {
         nome: data.nome,
-        categoria: data.categoriaproduto,
-        descricao: data.descricao
+        unidademedida: data.unidademedida,
+        custoporunidade: data.custoporunidade,
+        categoriaproduto: data.categoriaproduto,
+        fornecedor: data.fornecedor,
+        descricao: data.descricao,
+        codigobarras: data.codigobarras,
+        observacao: data.observacao
       };
 
       if (isEditing && produto) {
@@ -217,6 +224,22 @@ const ProdutoForm: React.FC = () => {
               />
               {errors.descricao && (
                 <p className="mt-1 text-sm text-red-600">{errors.descricao.message}</p>
+              )}
+            </div>
+
+            {/* Observação */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Observação
+              </label>
+              <textarea
+                {...register('observacao')}
+                rows={2}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Observações adicionais sobre o produto (opcional)..."
+              />
+              {errors.observacao && (
+                <p className="mt-1 text-sm text-red-600">{errors.observacao.message}</p>
               )}
             </div>
 
