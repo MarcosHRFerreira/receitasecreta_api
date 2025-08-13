@@ -36,7 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var userData = new UserResponse.UserData(
                 user.getId(),
                 user.getLogin(),
-                user.getLogin(), // Usando login como email por enquanto
+                user.getEmail(),
                 user.getRole()
         );
         
@@ -49,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new RuntimeException("Usuário já existe!");
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.login(), encryptedPassword, data.role());
+        User newUser = new User(data.login(), encryptedPassword, data.email(), data.role());
         repository.save(newUser);
     }
 

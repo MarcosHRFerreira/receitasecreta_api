@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "users")
 @Entity(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -25,13 +27,15 @@ public class User implements UserDetails {
     private String id;
     private String login;
     private String password;
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(String login, String password, UserRole role){
+    public User(String login, String password, String email, UserRole role){
         this.login = login;
         this.password = password;
+        this.email = email;
         this.role = role;
     }
 

@@ -1,11 +1,11 @@
 server:
   port: 8082
   servlet:
-    context-path: '/receitasecreta/'
+    context-path: "/receitasecreta/"
 
 spring:
   datasource:
-    url:  jdbc:postgresql://localhost:5432/receitasecreta
+    url: jdbc:postgresql://localhost:5432/receitasecreta
     username: postgres
     password: admin
   jpa:
@@ -20,6 +20,25 @@ spring:
   output:
     ansi:
       enabled: Always
+  mail:
+    host: smtp.hostinger.com
+    port: 587
+    username: ${EMAIL_USERNAME:}
+    password: ${EMAIL_PASSWORD:}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 30000
+          timeout: 30000
+          writetimeout: 30000
+        debug: true
+    test-connection: false
 
 logging:
   level:
@@ -27,8 +46,17 @@ logging:
     root: INFO
     org.springframework.web: DEBUG
     org.hibernate: INFO
+    br.com.marcosferreira.receitasecreta.api.services: DEBUG
 
 api:
   security:
     token:
       secret: ${JWT_SECRET:batman batman batman}
+
+app:
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:5173}
+  password-reset:
+    token-expiry-hours: ${TOKEN_EXPIRY_HOURS:1}
+    max-attempts-per-hour: ${MAX_ATTEMPTS_PER_HOUR:3}
+    cleanup-interval-hours: ${CLEANUP_INTERVAL_HOURS:24}

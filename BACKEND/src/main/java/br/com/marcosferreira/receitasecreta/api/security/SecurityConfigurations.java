@@ -36,6 +36,9 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/auth/validate-reset-token/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produtos").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/receitas").permitAll()
