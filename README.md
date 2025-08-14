@@ -1,11 +1,13 @@
 # 🍰 Organizador de Receitas
 
 ## 📝 Descrição
+
 O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar a gestão e organização de receitas culinárias. Ideal para confeiteiros, cozinheiros e amantes da gastronomia, permite cadastrar, classificar, buscar e compartilhar receitas com segurança e eficiência.
 
 ## 🚀 Funcionalidades Implementadas
 
 ### 🔐 Sistema de Autenticação e Autorização
+
 - **Registro de usuários** com validação de dados
 - **Login seguro** com JWT (JSON Web Tokens)
 - **Recuperação de senha** via e-mail SMTP
@@ -13,12 +15,14 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 - **Middleware de autenticação** para proteção de rotas
 
 ### 📧 Sistema de E-mail
+
 - **Configuração SMTP** integrada com Hostinger
 - **Envio de e-mails** para recuperação de senha
 - **Templates HTML** personalizados para e-mails
 - **Configuração automática** via scripts de ambiente
 
 ### 📌 Cadastro de Receitas
+
 - Nome da receita com validação
 - Ingredientes com medidas precisas (ex.: 500g de farinha, 200ml de leite)
 - Modo de preparo dividido em etapas detalhadas
@@ -26,34 +30,40 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 - **Upload de imagens** para as receitas
 
 ### 📂 Classificação e Organização
+
 - **Categorias**: Bolos, tortas, doces finos, salgados, bebidas
 - **Filtros avançados**: Tempo de preparo, nível de dificuldade, tipo de ingrediente
 - **Sistema de favoritos**: Marcar receitas mais utilizadas
 - **Tags personalizadas** para melhor organização
 
 ### 📦 Gerenciamento de Estoque Integrado
+
 - Relacionamento entre ingredientes e controle de estoque
 - Alertas automáticos para ingredientes em falta
 - **Histórico de uso** de ingredientes
 - **Cálculo automático** de custos por receita
 
 ### 📝 Anotações e Personalizações
+
 - Adição de dicas e ajustes nas receitas
 - **Histórico de modificações** nas receitas
 - **Avaliações e comentários** dos usuários
 
 ### 🔎 Busca Avançada
+
 - Pesquisa por nome, ingrediente, categoria ou tags
 - **Filtros combinados** para busca precisa
 - **Busca por similaridade** de ingredientes
 
 ### 📺 Interface e Experiência do Usuário
+
 - **Design responsivo** com Tailwind CSS
 - **Modo tela cheia** para visualização durante o preparo
 - **Impressão otimizada** para consulta offline
 - **Interface intuitiva** com componentes Shadcn UI
 
 ### 🌐 API REST Completa
+
 - **Endpoints documentados** para todas as funcionalidades
 - **Validação de dados** em todas as requisições
 - **Tratamento de erros** padronizado
@@ -62,6 +72,7 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend
+
 - **Java 17+** (Linguagem principal)
 - **Spring Boot 3.x** (Framework principal)
 - **Spring Security** (Autenticação e autorização)
@@ -74,6 +85,7 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 - **Lombok** (Redução de código boilerplate)
 
 ### Frontend
+
 - **React 18+** (Biblioteca principal)
 - **TypeScript** (Tipagem estática)
 - **Vite** (Build tool e dev server)
@@ -85,6 +97,7 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 - **React Router** (Roteamento)
 
 ### Ferramentas de Desenvolvimento
+
 - **Vitest** (Testes unitários frontend)
 - **Jest** (Testes unitários backend)
 - **ESLint** (Linting JavaScript/TypeScript)
@@ -92,6 +105,7 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 - **Yarn** (Gerenciador de pacotes)
 
 ### Infraestrutura e Deploy
+
 - **Git** (Controle de versão)
 - **GitHub** (Repositório remoto)
 - **Hostinger SMTP** (Serviço de e-mail)
@@ -138,6 +152,7 @@ receitasecreta_api/
 ## 📦 Como Executar o Projeto
 
 ### 📌 Pré-requisitos
+
 - [Java 17+](https://www.oracle.com/java/)
 - [PostgreSQL 12+](https://www.postgresql.org/)
 - [Node.js 18+](https://nodejs.org/)
@@ -147,13 +162,16 @@ receitasecreta_api/
 ### 🔧 Configuração Inicial
 
 #### 1. Clone o repositório
+
 ```bash
 git clone https://github.com/MarcosHRFerreira/receitasecreta_api.git
 cd receitasecreta_api
 ```
 
 #### 2. Configuração do Banco de Dados
+
 1. Crie um banco PostgreSQL:
+
    ```sql
    CREATE DATABASE receitas_db;
    ```
@@ -166,6 +184,7 @@ cd receitasecreta_api
    ```
 
 #### 3. Executando o Backend
+
 ```bash
 cd BACKEND
 
@@ -181,6 +200,7 @@ cd BACKEND
 O backend estará disponível em: `http://localhost:8082`
 
 #### 4. Executando o Frontend
+
 ```bash
 cd FRONTEND
 
@@ -196,12 +216,14 @@ O frontend estará disponível em: `http://localhost:5173`
 ### 🧪 Executando Testes
 
 #### Testes Backend
+
 ```bash
 cd BACKEND
 ./mvnw test
 ```
 
 #### Testes Frontend
+
 ```bash
 cd FRONTEND
 yarn test
@@ -212,6 +234,7 @@ yarn test
 Para habilitar o sistema de recuperação de senha:
 
 1. Configure as variáveis SMTP no arquivo `.env`:
+
    ```env
    SMTP_HOST=smtp.hostinger.com
    SMTP_PORT=587
@@ -221,10 +244,11 @@ Para habilitar o sistema de recuperação de senha:
    ```
 
 2. Execute o script de configuração automática:
+
    ```bash
    # Windows
    .\setup-env.bat
-   
+
    # Linux/Mac
    ./setup-env.sh
    ```
@@ -232,6 +256,7 @@ Para habilitar o sistema de recuperação de senha:
 ## 🚀 Status do Projeto
 
 ### ✅ Implementado
+
 - [x] Sistema de autenticação completo (JWT)
 - [x] Recuperação de senha via e-mail
 - [x] CRUD de receitas
@@ -245,6 +270,7 @@ Para habilitar o sistema de recuperação de senha:
 - [x] Documentação completa
 
 ### 🔄 Em Desenvolvimento
+
 - [ ] Sistema de favoritos
 - [ ] Gerenciamento de estoque
 - [ ] Modo offline
@@ -252,6 +278,7 @@ Para habilitar o sistema de recuperação de senha:
 - [ ] Sistema de avaliações
 
 ### 📋 Roadmap
+
 - [ ] Aplicativo mobile
 - [ ] Integração com redes sociais
 - [ ] Sistema de recomendações
@@ -274,7 +301,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 - **Desenvolvedor**: Marcos Henrique
 - **GitHub**: [@MarcosHRFerreira](https://github.com/MarcosHRFerreira)
-- **E-mail**: marcos@exemplo.com
+- **E-mail**: marcoshrferreira@gmail.com
 
 ---
 
