@@ -67,7 +67,7 @@ const ReceitaForm: React.FC = () => {
               unidadeMedida: ing.unidadeMedida,
               observacao: ing.observacao || ''
             }))
-          : [{ produtoId: '', quantidade: 0, unidadeMedida: 'GRAMA', observacao: '' }]
+          : [{ produtoId: '', quantidade: 0, unidadeMedida: UnidadeMedida.GRAMA, observacao: '' }]
       });
     }
   }, [receita, ingredientesExistentes, reset, isEditing]);

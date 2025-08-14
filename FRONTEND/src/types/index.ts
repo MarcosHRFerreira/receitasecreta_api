@@ -55,11 +55,12 @@ export interface User {
 }
 
 export interface Produto {
-  produtoId: string;
-  nomeProduto: string;
-  categoriaproduto: CategoriaProduto;
+  id: string;
+  nome: string;
+  categoria: CategoriaProduto;
   unidademedida: UnidadeMedida;
   custoporunidade: number;
+  categoriaproduto: CategoriaProduto;
   fornecedor: string;
   descricao: string;
   codigobarras?: string;

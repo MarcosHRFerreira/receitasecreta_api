@@ -1,27 +1,23 @@
-import React, { ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from '../../contexts/AuthContext';
-import { vi } from 'vitest';
+import React, { type ReactElement } from "react";
+import { render, type RenderOptions } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "../../contexts/AuthContext";
+import { vi } from "vitest";
 
 // Configuração customizada do QueryClient para testes
-const createTestQueryClient = () => new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      gcTime: 0,
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+        gcTime: 0,
+      },
+      mutations: {
+        retry: false,
+      },
     },
-    mutations: {
-      retry: false,
-    },
-  },
-  logger: {
-    log: vi.fn(),
-    warn: vi.fn(),
-    error: vi.fn(),
-  },
-});
+  });
 
 // Wrapper com todos os providers necessários
 interface AllTheProvidersProps {
@@ -30,39 +26,30 @@ interface AllTheProvidersProps {
   initialEntries?: string[];
 }
 
-const AllTheProviders = ({ 
-  children, 
+const AllTheProviders = ({
+  children,
   queryClient = createTestQueryClient(),
-  initialEntries = ['/'] 
 }: AllTheProvidersProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );
 };
 
 // Render customizado com providers
-interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
   queryClient?: QueryClient;
   initialEntries?: string[];
 }
 
-const customRender = (
-  ui: ReactElement,
-  options: CustomRenderOptions = {}
-) => {
+const customRender = (ui: ReactElement, options: CustomRenderOptions = {}) => {
   const { queryClient, initialEntries, ...renderOptions } = options;
-  
+
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <AllTheProviders 
-      queryClient={queryClient} 
-      initialEntries={initialEntries}
-    >
+    <AllTheProviders queryClient={queryClient} initialEntries={initialEntries}>
       {children}
     </AllTheProviders>
   );
@@ -76,23 +63,16 @@ const renderWithQueryClient = (
   queryClient = createTestQueryClient()
 ) => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 
   return render(ui, { wrapper: Wrapper });
 };
 
 // Render apenas com Router (sem outros providers)
-const renderWithRouter = (
-  ui: ReactElement,
-  initialEntries: string[] = ['/']
-) => {
+const renderWithRouter = (ui: ReactElement) => {
   const Wrapper = ({ children }: { children: React.ReactNode }) => (
-    <BrowserRouter>
-      {children}
-    </BrowserRouter>
+    <BrowserRouter>{children}</BrowserRouter>
   );
 
   return render(ui, { wrapper: Wrapper });
@@ -100,22 +80,22 @@ const renderWithRouter = (
 
 // Mock do usuário autenticado
 export const mockAuthenticatedUser = {
-  id: '1',
-  username: 'Test User',
-  email: 'test@test.com',
-  role: 'USER' as const,
+  id: "1",
+  username: "Test User",
+  email: "test@test.com",
+  role: "USER" as const,
 };
 
 export const mockAdminUser = {
-  id: '2',
-  username: 'Admin User',
-  email: 'admin@test.com',
-  role: 'ADMIN' as const,
+  id: "2",
+  username: "Admin User",
+  email: "admin@test.com",
+  role: "ADMIN" as const,
 };
 
 // Função para simular delay em testes
-export const waitFor = (ms: number) => 
-  new Promise(resolve => setTimeout(resolve, ms));
+export const waitFor = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 // Mock de localStorage para testes
 export const mockLocalStorage = {
@@ -135,9 +115,9 @@ export const clearAllMocks = () => {
 };
 
 // Re-export everything
-export * from '@testing-library/react';
-export { default as userEvent } from '@testing-library/user-event';
-export { 
+export * from "@testing-library/react";
+export { default as userEvent } from "@testing-library/user-event";
+export {
   customRender as render,
   renderWithQueryClient,
   renderWithRouter,

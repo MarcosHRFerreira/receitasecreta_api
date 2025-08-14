@@ -1,9 +1,6 @@
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import { render } from '@testing-library/react';
-import { ReactElement } from 'react';
-
-// Estender expect com matchers de acessibilidade
-expect.extend(toHaveNoViolations);
+import { type ReactElement } from 'react';
 
 // Configuração padrão do axe para testes
 const axeConfig = {
@@ -136,8 +133,7 @@ export const checkAriaAttributes = (
  * @param minimumRatio - Ratio mínimo de contraste (padrão: 4.5)
  */
 export const checkColorContrast = (
-  element: Element,
-  minimumRatio: number = 4.5
+  element: Element
 ) => {
   // Em um ambiente real, você usaria uma biblioteca como color-contrast
   // Para testes, vamos apenas verificar se as cores não são iguais

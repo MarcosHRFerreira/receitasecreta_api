@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Receita Form</title>
+</head>
+<body>
+    <h1>Debug - Teste de Carregamento de Produtos</h1>
+    <p>Abra o console do navegador (F12) e navegue para:</p>
+    <ul>
+        <li><a href="http://localhost:5173/receitas/nova" target="_blank">Nova Receita</a></li>
+        <li><a href="http://localhost:5173/receitas/b79b34c3-fb16-4835-bd79-155426ee1ecb/editar" target="_blank">Editar Receita (Bolo de Chocolate)</a></li>
+    </ul>
+    <p>Verifique se os logs de debug aparecem no console:</p>
+    <ul>
+        <li>🛒 [ReceitaForm] Produtos carregados</li>
+        <li>🛒 [ReceitaForm] Quantidade de produtos</li>
+        <li>🛒 [ReceitaIngredientes] Produtos recebidos</li>
+        <li>🌐 [API] logs de requisições</li>
+    </ul>
+    
+    <script>
+        console.log('🔧 [Debug] Página de debug carregada');
+        console.log('🔧 [Debug] Token no localStorage:', localStorage.getItem('token') ? 'Presente' : 'Ausente');
+        console.log('🔧 [Debug] User no localStorage:', localStorage.getItem('user') ? 'Presente' : 'Ausente');
+    </script>
+</body>
+</html>

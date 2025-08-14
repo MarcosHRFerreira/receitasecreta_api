@@ -10,7 +10,7 @@ spring:
     password: admin
   jpa:
     hibernate:
-      ddl-auto: validate  # Mudança crítica: de 'update' para 'validate'
+      ddl-auto: validate # Mudança crítica: de 'update' para 'validate'
       dialect: org.hibernate.dialect.PostgreSQLDialect
       jdbc:
         lob.non-contextual-creation: true

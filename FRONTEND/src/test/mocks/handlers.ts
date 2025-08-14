@@ -10,18 +10,17 @@ import type {
   UserRequest,
   ProdutoRequest,
   ReceitaRequest,
-  ReceitaIngredienteRequest,
-  ReceitaIngredienteDeleteRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-  TokenValidationResponse
+  TokenValidationResponse,
+  UnidadeMedida
 } from '../../types';
 
 // Additional types for handlers
 interface ReceitaIngredienteItem {
   produtoId: string;
   quantidade: number;
-  unidadeMedida: string;
+  unidadeMedida: UnidadeMedida;
   observacao?: string;
 }
 
@@ -69,10 +68,11 @@ const mockUsers: User[] = [
 
 const mockProdutos: Produto[] = [
   {
-    produtoId: '1',
-    nomeProduto: 'Farinha de Trigo',
+    id: '1',
+    nome: 'Farinha de Trigo',
     unidademedida: 'KILO',
     custoporunidade: 5.50,
+    categoria: 'INGREDIENTE_SECO',
     categoriaproduto: 'INGREDIENTE_SECO',
     fornecedor: 'Fornecedor A',
     descricao: 'Farinha de trigo especial para bolos',
@@ -83,10 +83,11 @@ const mockProdutos: Produto[] = [
     userId: '1'
   },
   {
-    produtoId: '2',
-    nomeProduto: 'Açúcar Cristal',
+    id: '2',
+    nome: 'Açúcar Cristal',
     unidademedida: 'KILO',
     custoporunidade: 4.20,
+    categoria: 'INGREDIENTE_SECO',
     categoriaproduto: 'INGREDIENTE_SECO',
     fornecedor: 'Fornecedor B',
     descricao: 'Açúcar cristal refinado',
@@ -95,10 +96,11 @@ const mockProdutos: Produto[] = [
     userId: '2'
   },
   {
-    produtoId: '3',
-    nomeProduto: 'Leite Integral',
+    id: '3',
+    nome: 'Leite Integral',
     unidademedida: 'LITRO',
     custoporunidade: 6.90,
+    categoria: 'LATICINIO',
     categoriaproduto: 'LATICINIO',
     fornecedor: 'Fornecedor C',
     descricao: 'Leite integral fresco',
@@ -335,11 +337,7 @@ export const handlers = [
   }),
 
   // Users endpoints
-  http.get(`${BASE_URL}/users`, ({ request }) => {
-    const url = new URL(request.url);
-    const page = parseInt(url.searchParams.get('page') || '0');
-    const size = parseInt(url.searchParams.get('size') || '10');
-    
+  http.get(`${BASE_URL}/users`, () => {
     return HttpResponse.json(mockUsers);
   }),
 
@@ -516,7 +514,7 @@ export const handlers = [
 
   http.get(`${BASE_URL}/produtos/:id`, ({ params }) => {
     const { id } = params;
-    const produto = mockProdutos.find(p => p.produtoId === id);
+    const produto = mockProdutos.find(p => p.id === id);
     
     if (!produto) {
       return HttpResponse.json(
@@ -532,10 +530,11 @@ export const handlers = [
     const produtoData = await request.json() as ProdutoRequest;
     
     const newProduto: Produto = {
-      produtoId: generateId(),
-      nomeProduto: produtoData.nome,
+      id: generateId(),
+      nome: produtoData.nome,
       unidademedida: produtoData.unidademedida,
       custoporunidade: produtoData.custoporunidade,
+      categoria: produtoData.categoriaproduto,
       categoriaproduto: produtoData.categoriaproduto,
       fornecedor: produtoData.fornecedor,
       descricao: produtoData.descricao,
@@ -555,7 +554,7 @@ export const handlers = [
     const { id } = params;
     const produtoData = await request.json() as Partial<ProdutoRequest>;
     
-    const produtoIndex = mockProdutos.findIndex(p => p.produtoId === id);
+    const produtoIndex = mockProdutos.findIndex(p => p.id === id);
     
     if (produtoIndex === -1) {
       return HttpResponse.json(
@@ -566,9 +565,10 @@ export const handlers = [
     
     const updatedProduto: Produto = {
       ...mockProdutos[produtoIndex],
-      ...(produtoData.nome && { nomeProduto: produtoData.nome }),
+      ...(produtoData.nome && { nome: produtoData.nome }),
       ...(produtoData.unidademedida && { unidademedida: produtoData.unidademedida }),
       ...(produtoData.custoporunidade !== undefined && { custoporunidade: produtoData.custoporunidade }),
+      ...(produtoData.categoriaproduto && { categoria: produtoData.categoriaproduto }),
       ...(produtoData.categoriaproduto && { categoriaproduto: produtoData.categoriaproduto }),
       ...(produtoData.fornecedor && { fornecedor: produtoData.fornecedor }),
       ...(produtoData.descricao && { descricao: produtoData.descricao }),
@@ -584,7 +584,7 @@ export const handlers = [
 
   http.delete(`${BASE_URL}/produtos/:id`, ({ params }) => {
     const { id } = params;
-    const produtoIndex = mockProdutos.findIndex(p => p.produtoId === id);
+    const produtoIndex = mockProdutos.findIndex(p => p.id === id);
     
     if (produtoIndex === -1) {
       return HttpResponse.json(
@@ -625,7 +625,7 @@ export const handlers = [
       quantidade: ing.quantidade,
       unidadeMedida: ing.unidadeMedida,
       observacao: ing.observacao,
-      produto: mockProdutos.find(p => p.produtoId === ing.produtoId),
+      produto: mockProdutos.find(p => p.id === ing.produtoId),
       receita: mockReceitas.find(r => r.receitaId === ingredienteData.receitaId)
     }));
     
@@ -649,7 +649,7 @@ export const handlers = [
       quantidade: ing.quantidade,
       unidadeMedida: ing.unidadeMedida,
       observacao: ing.observacao,
-      produto: mockProdutos.find(p => p.produtoId === ing.produtoId),
+      produto: mockProdutos.find(p => p.id === ing.produtoId),
       receita: mockReceitas.find(r => r.receitaId === ingredienteData.receitaId)
     }));
     

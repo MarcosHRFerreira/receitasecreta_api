@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste API</title>
+</head>
+<body>
+    <h1>Teste de Acesso à API</h1>
+    <button onclick="testAPI()">Testar API de Produtos</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testando...';
+            
+            try {
+                const response = await fetch('http://localhost:8082/receitasecreta/produtos', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = `<h3>Sucesso!</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<h3>Erro HTTP:</h3><p>Status: ${response.status}</p><p>StatusText: ${response.statusText}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<h3>Erro de Rede/CORS:</h3><p>${error.message}</p>`;
+                console.error('Erro:', error);
+            }
+        }
+    </script>
+</body>
+</html>

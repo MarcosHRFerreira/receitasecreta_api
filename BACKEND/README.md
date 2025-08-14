@@ -29,6 +29,19 @@ Este é o backend da aplicação **Organizador de Receitas**, desenvolvido em Sp
        password: admin
    ```
 
+## 📧 Configuração do Arquivo .env
+
+⚠️ **IMPORTANTE**: O arquivo `.env` não é versionado no Git. Após um `git pull` ou `git clone`, você precisa recriá-lo.
+
+1. Copie o arquivo de exemplo:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Configure suas credenciais de email no arquivo `.env`
+
+📖 **Para instruções detalhadas**, consulte: [CONFIGURACAO_ENV.md](./CONFIGURACAO_ENV.md)
+
 ## 🚀 Como Executar
 
 ### Usando Maven Wrapper (Recomendado)

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProduto, useCreateProduto, useUpdateProduto } from '../hooks/useApi';
 import type { ProdutoFormData } from '../types';
+import { UnidadeMedida, CategoriaProduto } from '../types';
 import { Loading } from '../components';
 
 const ProdutoForm: React.FC = () => {
@@ -19,8 +20,8 @@ const ProdutoForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ProdutoFormData>({
     defaultValues: {
          nome: '',
-         categoriaproduto: 'INGREDIENTE_SECO',
-         unidademedida: 'GRAMA',
+         categoriaproduto: CategoriaProduto.INGREDIENTE_SECO,
+         unidademedida: UnidadeMedida.GRAMA,
          custoporunidade: 0,
          fornecedor: '',
          descricao: '',
