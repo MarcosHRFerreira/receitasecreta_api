@@ -1,11 +1,13 @@
 package br.com.marcosferreira.receitasecreta.api.services;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 public class AuditService {
+    
+    private static final Logger log = LoggerFactory.getLogger(AuditService.class);
 
     public void auditPasswordChange(String userId, String changedBy, String reason) {
         // Log da alteração de senha

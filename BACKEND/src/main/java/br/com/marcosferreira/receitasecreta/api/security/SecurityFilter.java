@@ -30,16 +30,24 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        var token = recoverToken(request);
-        if (token != null) {
-            String login = tokenService.validateToken(token).orElse(null);
+        try {
+            var token = recoverToken(request);
+            if (token != null) {
+                String login = tokenService.validateToken(token).orElse(null);
 
-            UserDetails user = userRepository.findByLogin(login);
+                if (login != null) {
+                    UserDetails user = userRepository.findByLogin(login);
 
-            if (user != null) {
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    if (user != null) {
+                        var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
+                }
             }
+        } catch (Exception e) {
+            // Log the exception but don't block the request
+            System.err.println("Error in SecurityFilter: " + e.getMessage());
+            e.printStackTrace();
         }
         filterChain.doFilter(request, response);
     }

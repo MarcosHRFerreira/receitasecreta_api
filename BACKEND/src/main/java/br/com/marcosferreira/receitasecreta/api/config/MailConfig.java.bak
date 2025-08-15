@@ -1,7 +1,5 @@
 package br.com.marcosferreira.receitasecreta.api.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,31 +10,26 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
-    
-    private static final Logger log = LoggerFactory.getLogger(MailConfig.class);
 
-    // Usar valores fixos ou variáveis de ambiente
-    private final String host = "smtp.hostinger.com";
-    private final int port = 587;
+    @Value("${spring.mail.host}")
+    private String host;
+
+    @Value("${spring.mail.port}")
+    private int port;
+
+    @Value("${spring.mail.username}")
+    private String username;
+
+    @Value("${spring.mail.password}")
+    private String password;
 
     @Bean
     public JavaMailSender javaMailSender() {
-        // Usar diretamente as variáveis de ambiente
-        String envUsername = System.getenv("EMAIL_USERNAME");
-        String envPassword = System.getenv("EMAIL_PASSWORD");
-        
-        log.info("=== MAIL CONFIG DEBUG ===");
-        log.info("Host: {}", host);
-        log.info("Port: {}", port);
-        log.info("ENV Username: {}", envUsername);
-        log.info("ENV Password: {}", envPassword != null ? "[CONFIGURED]" : "[NOT CONFIGURED]");
-        log.info("=========================");
-        
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);
-        mailSender.setUsername(envUsername);
-        mailSender.setPassword(envPassword);
+        mailSender.setUsername(username);
+        mailSender.setPassword(password);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

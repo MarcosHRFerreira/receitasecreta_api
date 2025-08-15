@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useReceita, useDeleteReceita, useIngredientesByReceita } from '../hooks/useApi';
 import { useAuth } from '../contexts/AuthContextDefinition';
-import { Loading, Modal } from '../components';
+import { Loading, Modal, ReceitaImageGallery } from '../components';
 import type { ReceitaIngrediente } from '../types';
 
 const ReceitaDetail: React.FC = () => {
@@ -150,6 +150,9 @@ const ReceitaDetail: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Images Gallery */}
+      <ReceitaImageGallery receitaId={receita.receitaId} />
 
       {/* Ingredients */}
       <div className="bg-white rounded-lg shadow">

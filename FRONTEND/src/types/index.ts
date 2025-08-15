@@ -286,3 +286,68 @@ export interface ResetPasswordFormData {
   newPassword: string;
   confirmPassword: string;
 }
+
+// Tipos para sistema de imagens de receitas
+export interface ReceitaImagemResponseDto {
+  imagemId: string;
+  receitaId: string;
+  nomeReceita: string;
+  nomeArquivo: string;
+  nomeOriginal: string;
+  caminhoArquivo: string;
+  urlImagem: string;
+  urlThumbnail?: string;
+  tipoMime: string;
+  tamanhoBytes: number;
+  largura?: number;
+  altura?: number;
+  ehPrincipal: boolean;
+  descricao?: string;
+  ordemExibicao: number;
+  createdAt: string;
+  updatedAt: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
+
+export interface ReceitaImagemUploadDto {
+  receitaId: string;
+  arquivo: File;
+  descricao?: string;
+  ehPrincipal?: boolean;
+  ordemExibicao?: number;
+}
+
+export interface ReceitaImagemUpdateDto {
+  imagemId?: string;
+  descricao?: string;
+  ehPrincipal?: boolean;
+  ordemExibicao?: number;
+}
+
+export interface ReceitaImagemReorderDto {
+  imagens: ImagemOrdemDto[];
+}
+
+export interface ImagemOrdemDto {
+  imagemId: string;
+  ordemExibicao: number;
+}
+
+export interface ImagemEstatisticasDto {
+  totalImagens: number;
+  tamanhoTotalBytes: number;
+  imagemPrincipalId?: string;
+  tiposArquivo: Record<string, number>;
+  dimensoesMedia: {
+    larguraMedia: number;
+    alturaMedia: number;
+  };
+}
+
+export interface ImageConfigDto {
+  maxFileSize: number;
+  allowedExtensions: string[];
+  maxImagensPerReceita: number;
+  allowedMimeTypes: string[];
+}

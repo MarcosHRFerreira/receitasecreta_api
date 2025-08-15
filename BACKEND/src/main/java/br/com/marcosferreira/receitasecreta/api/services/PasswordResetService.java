@@ -4,8 +4,8 @@ import br.com.marcosferreira.receitasecreta.api.models.PasswordResetToken;
 import br.com.marcosferreira.receitasecreta.api.models.User;
 import br.com.marcosferreira.receitasecreta.api.repositories.PasswordResetTokenRepository;
 import br.com.marcosferreira.receitasecreta.api.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +17,19 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-@Slf4j
 public class PasswordResetService {
     
-    private final PasswordResetTokenRepository tokenRepository;
-    private final UserRepository userRepository;
-    private final EmailService emailService;
+    private static final Logger log = LoggerFactory.getLogger(PasswordResetService.class);
+    
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private EmailService emailService;
+    
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     
     @Autowired

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -47,6 +48,7 @@ class PasswordResetServiceTest {
     @Mock
     private AuditService auditService;
 
+    @InjectMocks
     private PasswordResetService passwordResetService;
 
     private User mockUser;
@@ -57,16 +59,6 @@ class PasswordResetServiceTest {
 
     @BeforeEach
     void setUp() {
-        passwordResetService = new PasswordResetService(tokenRepository, userRepository, emailService);
-        
-        // Injetar o AuditService manualmente via reflection
-        try {
-            java.lang.reflect.Field auditServiceField = PasswordResetService.class.getDeclaredField("auditService");
-            auditServiceField.setAccessible(true);
-            auditServiceField.set(passwordResetService, auditService);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao injetar AuditService", e);
-        }
 
         userEmail = "test@email.com";
         userLogin = "testuser";

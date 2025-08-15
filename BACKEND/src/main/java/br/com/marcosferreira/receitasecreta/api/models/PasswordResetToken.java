@@ -51,4 +51,17 @@ public class PasswordResetToken {
     public boolean isValid() {
         return !this.used && !this.isExpired();
     }
+    
+    // Métodos explícitos para resolver problemas de compilação
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+    
+    public String getUserLogin() {
+        return this.userLogin;
+    }
+    
+    public String getToken() {
+        return this.token;
+    }
 }

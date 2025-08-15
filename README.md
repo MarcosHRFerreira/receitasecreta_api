@@ -21,13 +21,23 @@ O **Organizador de Receitas** é um sistema completo desenvolvido para facilitar
 - **Templates HTML** personalizados para e-mails
 - **Configuração automática** via scripts de ambiente
 
+### 🗄️ Sistema de Banco de Dados
+
+- **PostgreSQL** como banco principal (migrado do H2)
+- **Flyway** para controle de versões e migrações
+- **DataLoader** automático com dados de exemplo
+- **Relacionamentos** otimizados entre entidades
+- **Backup automático** antes de migrações críticas
+
 ### 📌 Cadastro de Receitas
 
 - Nome da receita com validação
 - Ingredientes com medidas precisas (ex.: 500g de farinha, 200ml de leite)
 - Modo de preparo dividido em etapas detalhadas
 - Tempo de preparo e rendimento (quantidade de porções)
-- **Upload de imagens** para as receitas
+- **Upload de imagens** para as receitas com CORS otimizado
+- **Relacionamento automático** com produtos do estoque
+- **Dados de exemplo** pré-carregados (bolo de chocolate, torta de maçã, etc.)
 
 ### 📂 Classificação e Organização
 
@@ -253,6 +263,38 @@ Para habilitar o sistema de recuperação de senha:
    ./setup-env.sh
    ```
 
+## 🆕 Inovações Recentes
+
+### 📅 Atualizações de Hoje
+
+#### 🗄️ Migração para PostgreSQL
+- **Migração completa** do banco H2 para PostgreSQL
+- **Configuração otimizada** no `application.yaml`
+- **Dependências atualizadas** no `pom.xml`
+- **Scripts Flyway** adaptados para PostgreSQL
+- **Backup automático** realizado antes da migração
+
+#### 🔧 Correções de CORS
+- **Resolução de conflitos** de configuração CORS
+- **Remoção de anotações** `@CrossOrigin` conflitantes
+- **Configuração unificada** em `SecurityConfigurations.java` e `ResolverConfig.java`
+- **Upload de imagens** funcionando corretamente
+- **Origens específicas** configuradas para desenvolvimento
+
+#### 📦 Sistema de Dados de Exemplo
+- **DataLoader expandido** com produtos realistas (farinha, açúcar, ovos, leite, etc.)
+- **Receitas de exemplo** implementadas (bolo de chocolate, torta de maçã, etc.)
+- **Ingredientes automáticos** criados para cada receita
+- **Relacionamentos** entre produtos, receitas e ingredientes
+- **Dados consistentes** para testes e demonstrações
+
+#### 🛠️ Melhorias Técnicas
+- **Logs detalhados** para debugging
+- **Configuração de ambiente** otimizada
+- **Tratamento de erros** aprimorado
+- **Performance** melhorada nas consultas
+- **Documentação** atualizada
+
 ## 🚀 Status do Projeto
 
 ### ✅ Implementado
@@ -261,13 +303,17 @@ Para habilitar o sistema de recuperação de senha:
 - [x] Recuperação de senha via e-mail
 - [x] CRUD de receitas
 - [x] Sistema de categorias
-- [x] Upload de imagens
+- [x] Upload de imagens com correções de CORS
 - [x] Busca avançada
 - [x] Interface responsiva
 - [x] Testes unitários
 - [x] Migrações de banco de dados
 - [x] Configuração de ambiente automatizada
 - [x] Documentação completa
+- [x] Migração completa para PostgreSQL
+- [x] DataLoader com dados de exemplo (produtos e receitas)
+- [x] Sistema de ingredientes integrado
+- [x] Correções de configuração CORS para upload de arquivos
 
 ### 🔄 Em Desenvolvimento
 

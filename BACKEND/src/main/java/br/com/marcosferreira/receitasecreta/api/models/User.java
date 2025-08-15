@@ -62,6 +62,51 @@ public class User implements UserDetails {
         this.passwordChangedAt = LocalDateTime.now();
         this.passwordChangedBy = changedBy;
     }
+    
+    // Métodos explícitos para resolver problemas de compilação
+    public String getId() {
+        return this.id;
+    }
+    
+    public String getLogin() {
+        return this.login;
+    }
+    
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public UserRole getRole() {
+        return this.role;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+    
+    public LocalDateTime getPasswordChangedAt() {
+        return this.passwordChangedAt;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    public String getPassword() {
+        return this.password;
+    }
+    
+    public String getPasswordChangedBy() {
+        return this.passwordChangedBy;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public String getName() {
+        return this.login;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

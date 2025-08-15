@@ -2,7 +2,7 @@ package br.com.marcosferreira.receitasecreta.api.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +19,9 @@ public class JacksonConfig {
         ObjectMapper objectMapper = new ObjectMapper();
 
         // Registro dos módulos Hibernate e JavaTime
-        Hibernate5Module hibernate5Module = new Hibernate5Module();
-        hibernate5Module.configure(Hibernate5Module.Feature.FORCE_LAZY_LOADING, true);
-        objectMapper.registerModule(hibernate5Module);
+        Hibernate6Module hibernate6Module = new Hibernate6Module();
+        hibernate6Module.configure(Hibernate6Module.Feature.FORCE_LAZY_LOADING, true);
+        objectMapper.registerModule(hibernate6Module);
         JavaTimeModule javaTimeModule = new JavaTimeModule();
 
         // Configurações para formatar LocalDateTime como ISO 8601

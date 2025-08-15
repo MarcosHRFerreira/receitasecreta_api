@@ -10,7 +10,7 @@ type ReceitaCompleteFormData = ReceitaFormData & { ingredientes: ReceitaIngredie
 // Tipo para ingredientes válidos
 
 import { UnidadeMedida } from '../types';
-import { Loading, ReceitaBasicInfo, ReceitaIngredientes, ReceitaInstructions } from '../components';
+import { Loading, ReceitaBasicInfo, ReceitaIngredientes, ReceitaInstructions, ImageUpload } from '../components';
 
 const ReceitaForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -290,6 +290,24 @@ const ReceitaForm: React.FC = () => {
 
         {/* Instructions */}
         <ReceitaInstructions register={register} errors={errors} />
+
+        {/* Upload de Imagens */}
+        {(isEditing && id) && (
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Imagens da Receita</h3>
+            <ImageUpload 
+              receitaId={id}
+              onImageUploaded={(imagem) => {
+                console.log('Nova imagem adicionada:', imagem);
+              }}
+              onImageDeleted={(imagemId) => {
+                console.log('Imagem removida:', imagemId);
+              }}
+              maxFiles={10}
+              maxFileSize={5}
+            />
+          </div>
+        )}
 
         {/* Actions */}
         <div className="bg-white rounded-lg shadow p-6">

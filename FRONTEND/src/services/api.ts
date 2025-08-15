@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosResponse, AxiosProgressEvent } from 'axios';
 import type {
   User,
   Produto,
@@ -18,7 +18,12 @@ import type {
   PageRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-  TokenValidationResponse
+  TokenValidationResponse,
+  ReceitaImagemResponseDto,
+  ReceitaImagemUpdateDto,
+  ImagemEstatisticasDto,
+  ImageConfigDto,
+  ImagemOrdemDto
 } from '../types';
 
 const BASE_URL = 'http://localhost:8082/receitasecreta';
@@ -275,6 +280,161 @@ class ApiService {
       return response.data;
     } catch (error) {
       console.error('🌐 [API] Erro ao validar token:', error);
+      throw error;
+    }
+  }
+
+  // Métodos para sistema de imagens de receitas
+
+  async uploadReceitaImagem(
+    receitaId: string,
+    arquivo: File,
+    descricao?: string,
+    ehPrincipal?: boolean,
+    ordemExibicao?: number,
+    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
+  ): Promise<ReceitaImagemResponseDto> {
+    console.log('🌐 [API] Fazendo upload de imagem para receita:', receitaId);
+    try {
+      const formData = new FormData();
+      formData.append('arquivo', arquivo);
+      if (descricao) formData.append('descricao', descricao);
+      if (ehPrincipal !== undefined) formData.append('ehPrincipal', ehPrincipal.toString());
+      if (ordemExibicao !== undefined) formData.append('ordemExibicao', ordemExibicao.toString());
+
+      const response: AxiosResponse<ReceitaImagemResponseDto> = await this.api.post(
+        `/api/receitas/${receitaId}/imagens`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress,
+        }
+      );
+      console.log('🌐 [API] Upload de imagem concluído:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro no upload de imagem:', error);
+      throw error;
+    }
+  }
+
+  async getReceitaImagens(receitaId: string, params?: PageRequest): Promise<PageResponse<ReceitaImagemResponseDto>> {
+    console.log('🌐 [API] Buscando imagens da receita:', receitaId);
+    try {
+      const response: AxiosResponse<PageResponse<ReceitaImagemResponseDto>> = await this.api.get(
+        `/api/receitas/${receitaId}/imagens`,
+        { params }
+      );
+      console.log('🌐 [API] Imagens da receita obtidas:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro ao buscar imagens da receita:', error);
+      throw error;
+    }
+  }
+
+  async getReceitaImagemById(imagemId: string): Promise<ReceitaImagemResponseDto> {
+    console.log('🌐 [API] Buscando imagem por ID:', imagemId);
+    try {
+      const response: AxiosResponse<ReceitaImagemResponseDto> = await this.api.get(`/api/receitas/imagens/${imagemId}`);
+      console.log('🌐 [API] Imagem obtida:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro ao buscar imagem:', error);
+      throw error;
+    }
+  }
+
+  async updateReceitaImagem(imagemId: string, updateData: ReceitaImagemUpdateDto): Promise<ReceitaImagemResponseDto> {
+    console.log('🌐 [API] Atualizando imagem:', imagemId);
+    try {
+      const response: AxiosResponse<ReceitaImagemResponseDto> = await this.api.put(
+        `/api/receitas/imagens/${imagemId}`,
+        updateData
+      );
+      console.log('🌐 [API] Imagem atualizada:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro ao atualizar imagem:', error);
+      throw error;
+    }
+  }
+
+  async deleteReceitaImagem(imagemId: string): Promise<void> {
+    console.log('🌐 [API] Excluindo imagem:', imagemId);
+    try {
+      await this.api.delete(`/api/receitas/imagens/${imagemId}`);
+      console.log('🌐 [API] Imagem excluída com sucesso');
+    } catch (error) {
+      console.error('🌐 [API] Erro ao excluir imagem:', error);
+      throw error;
+    }
+  }
+
+  async reorderReceitaImagens(receitaId: string, imagens: ImagemOrdemDto[]): Promise<void> {
+    console.log('🌐 [API] Reordenando imagens da receita:', receitaId);
+    try {
+      await this.api.put(`/api/receitas/${receitaId}/imagens/reordenar`, { imagens });
+      console.log('🌐 [API] Imagens reordenadas com sucesso');
+    } catch (error) {
+      console.error('🌐 [API] Erro ao reordenar imagens:', error);
+      throw error;
+    }
+  }
+
+  async setImagemPrincipal(receitaId: string, imagemId: string): Promise<void> {
+    console.log('🌐 [API] Definindo imagem principal:', { receitaId, imagemId });
+    try {
+      await this.api.put(`/api/receitas/${receitaId}/imagens/${imagemId}/principal`);
+      console.log('🌐 [API] Imagem principal definida com sucesso');
+    } catch (error) {
+      console.error('🌐 [API] Erro ao definir imagem principal:', error);
+      throw error;
+    }
+  }
+
+  async getImagemPrincipal(receitaId: string): Promise<ReceitaImagemResponseDto | null> {
+    console.log('🌐 [API] Buscando imagem principal da receita:', receitaId);
+    try {
+      const response: AxiosResponse<ReceitaImagemResponseDto> = await this.api.get(
+        `/api/receitas/${receitaId}/imagens/principal`
+      );
+      console.log('🌐 [API] Imagem principal obtida:', response.data);
+      return response.data;
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        console.log('🌐 [API] Nenhuma imagem principal encontrada para a receita:', receitaId);
+        return null;
+      }
+      console.error('🌐 [API] Erro ao buscar imagem principal:', error);
+      throw error;
+    }
+  }
+
+  async getImagemEstatisticas(receitaId: string): Promise<ImagemEstatisticasDto> {
+    console.log('🌐 [API] Buscando estatísticas de imagens da receita:', receitaId);
+    try {
+      const response: AxiosResponse<ImagemEstatisticasDto> = await this.api.get(
+        `/api/receitas/${receitaId}/imagens/estatisticas`
+      );
+      console.log('🌐 [API] Estatísticas de imagens obtidas:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro ao buscar estatísticas de imagens:', error);
+      throw error;
+    }
+  }
+
+  async getImageConfig(): Promise<ImageConfigDto> {
+    console.log('🌐 [API] Buscando configurações do sistema de imagens');
+    try {
+      const response: AxiosResponse<ImageConfigDto> = await this.api.get('/api/receitas/imagens/config');
+      console.log('🌐 [API] Configurações de imagens obtidas:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('🌐 [API] Erro ao buscar configurações de imagens:', error);
       throw error;
     }
   }
