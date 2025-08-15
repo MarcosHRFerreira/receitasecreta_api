@@ -263,32 +263,8 @@ Para habilitar o sistema de recuperação de senha:
    ./setup-env.sh
    ```
 
-## 🆕 Inovações Recentes
-
-### 📅 Atualizações de Hoje
-
-#### 🗄️ Migração para PostgreSQL
-- **Migração completa** do banco H2 para PostgreSQL
-- **Configuração otimizada** no `application.yaml`
-- **Dependências atualizadas** no `pom.xml`
-- **Scripts Flyway** adaptados para PostgreSQL
-- **Backup automático** realizado antes da migração
-
-#### 🔧 Correções de CORS
-- **Resolução de conflitos** de configuração CORS
-- **Remoção de anotações** `@CrossOrigin` conflitantes
-- **Configuração unificada** em `SecurityConfigurations.java` e `ResolverConfig.java`
-- **Upload de imagens** funcionando corretamente
-- **Origens específicas** configuradas para desenvolvimento
-
-#### 📦 Sistema de Dados de Exemplo
-- **DataLoader expandido** com produtos realistas (farinha, açúcar, ovos, leite, etc.)
-- **Receitas de exemplo** implementadas (bolo de chocolate, torta de maçã, etc.)
-- **Ingredientes automáticos** criados para cada receita
-- **Relacionamentos** entre produtos, receitas e ingredientes
-- **Dados consistentes** para testes e demonstrações
-
 #### 🛠️ Melhorias Técnicas
+
 - **Logs detalhados** para debugging
 - **Configuração de ambiente** otimizada
 - **Tratamento de erros** aprimorado
