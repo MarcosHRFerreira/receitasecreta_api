@@ -38,13 +38,13 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">Ingredientes</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Ingredientes</h2>
         <button
           type="button"
           onClick={addIngrediente}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+          className="bg-blue-600 dark:bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
         >
           + Adicionar Ingrediente
         </button>
@@ -52,9 +52,9 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
 
       <div className="space-y-4">
         {fields.map((field, index) => (
-          <div key={field.id} className="flex items-center gap-4 p-4 border border-gray-200 rounded-md">
+          <div key={field.id} className="flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 dark:bg-gray-700 rounded-md">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Produto *
               </label>
               <select
@@ -62,7 +62,7 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
                   required: 'Produto é obrigatório',
                   validate: (value) => value && value.trim().length > 0 || 'Selecione um produto'
                 })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
 
               >
                 <option value="">Selecione um produto</option>
@@ -80,7 +80,7 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
             </div>
 
             <div className="w-32">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Quantidade *
               </label>
               <input
@@ -91,7 +91,7 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
                 type="number"
                 step="0.01"
                 min="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:placeholder-gray-400"
                 placeholder="0"
               />
               {(errors.ingredientes as Record<number, IngredienteFieldError>)?.[index]?.quantidade && (
@@ -102,14 +102,14 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
             </div>
 
             <div className="w-32">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Unidade *
               </label>
               <select
                 {...register(`ingredientes.${index}.unidadeMedida` as const, {
                   required: 'Unidade de medida é obrigatória'
                 })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="GRAMA">Grama</option>
                 <option value="KILO">Kilo</option>
@@ -129,7 +129,7 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
               <button
                 type="button"
                 onClick={() => remove(index)}
-                className="text-red-600 hover:text-red-800 transition-colors p-2"
+                className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors p-2"
                 title="Remover ingrediente"
               >
                 🗑️
@@ -140,12 +140,12 @@ const ReceitaIngredientes: React.FC<ReceitaIngredientesProps> = ({
       </div>
 
       {fields.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           <p>Nenhum ingrediente adicionado.</p>
           <button
             type="button"
             onClick={addIngrediente}
-            className="mt-2 text-blue-600 hover:text-blue-800 transition-colors"
+            className="mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
           >
             Adicionar primeiro ingrediente
           </button>

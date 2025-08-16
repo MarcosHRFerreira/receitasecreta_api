@@ -253,16 +253,16 @@ const ReceitaForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 animate-fade-in">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 animate-slide-down transition-all duration-300 hover:shadow-lg">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white animate-fade-in-delay">
             {isEditing ? 'Editar Receita' : 'Nova Receita'}
           </h1>
           <Link
             to={isEditing ? `/receitas/${id}` : '/receitas'}
-            className="text-gray-600 hover:text-gray-800 transition-colors"
+            className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-all duration-300 hover:scale-105 self-start sm:self-auto"
           >
             ← Voltar
           </Link>
@@ -270,58 +270,66 @@ const ReceitaForm: React.FC = () => {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 animate-fade-in-up">
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+          <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded-md animate-shake-and-fade-in">
             {error}
           </div>
         )}
 
         {/* Basic Info */}
-        <ReceitaBasicInfo register={register} errors={errors} />
+        <div className="animate-fade-in-delay">
+          <ReceitaBasicInfo register={register} errors={errors} />
+        </div>
 
         {/* Ingredientes */}
-        <ReceitaIngredientes 
-          register={register} 
-          errors={errors} 
-          control={control} 
-          produtos={produtos} 
-        />
+        <div className="animate-fade-in-up">
+          <ReceitaIngredientes 
+            register={register} 
+            errors={errors} 
+            control={control} 
+            produtos={produtos} 
+          />
+        </div>
 
         {/* Instructions */}
-        <ReceitaInstructions register={register} errors={errors} />
+        <div className="animate-fade-in-delay">
+          <ReceitaInstructions register={register} errors={errors} />
+        </div>
 
         {/* Upload de Imagens */}
         {(isEditing && id) && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Imagens da Receita</h3>
-            <ImageUpload 
-              receitaId={id}
-              onImageUploaded={(imagem) => {
-                console.log('Nova imagem adicionada:', imagem);
-              }}
-              onImageDeleted={(imagemId) => {
-                console.log('Imagem removida:', imagemId);
-              }}
-              maxFiles={10}
-              maxFileSize={5}
-            />
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 animate-fade-in-up transition-all duration-300 hover:shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 animate-fade-in-delay">Imagens da Receita</h3>
+            <div className="animate-fade-in">
+              <ImageUpload 
+                receitaId={id}
+                onImageUploaded={(imagem) => {
+                  console.log('Nova imagem adicionada:', imagem);
+                }}
+                onImageDeleted={(imagemId) => {
+                  console.log('Imagem removida:', imagemId);
+                }}
+                maxFiles={10}
+                maxFileSize={5}
+              />
+            </div>
           </div>
         )}
 
         {/* Actions */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex space-x-4 justify-end">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 animate-fade-in-up transition-all duration-300 hover:shadow-lg">
+          <div className="flex flex-col sm:flex-row gap-4 sm:justify-end animate-stagger-children">
             <Link
               to={isEditing ? `/receitas/${id}` : '/receitas'}
-              className="px-6 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="w-full sm:w-auto px-6 py-2 text-center text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105 hover:shadow-md"
             >
               Cancelar
             </Link>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto px-6 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 hover:shadow-lg"
             >
               {isLoading ? (
                 <Loading size="sm" text="" />

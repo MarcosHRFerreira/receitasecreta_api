@@ -9,19 +9,19 @@ interface ReceitaInstructionsProps {
 
 const ReceitaInstructions: React.FC<ReceitaInstructionsProps> = ({ register, errors }) => {
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Instruções</h2>
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Instruções</h2>
       
       <div className="space-y-6">
         {/* Modo de Preparo */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Modo de Preparo *
           </label>
           <textarea
             {...register('modoPreparo', { required: 'Modo de preparo é obrigatório' })}
             rows={8}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
             placeholder="Descreva passo a passo como preparar a receita..."
           />
           {errors.modoPreparo && (
@@ -31,13 +31,13 @@ const ReceitaInstructions: React.FC<ReceitaInstructionsProps> = ({ register, err
 
         {/* Notas */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Notas
           </label>
           <textarea
             {...register('notas')}
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
             placeholder="Dicas extras, substituições possíveis, etc..."
           />
         </div>

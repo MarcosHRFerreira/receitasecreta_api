@@ -72,20 +72,20 @@ const ReceitaDetail: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-0 animate-fade-in">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 animate-slide-down transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700">
+        <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
-            <div className="flex items-center space-x-3 mb-4">
-              <span className="text-3xl">{getCategoryIcon(receita.categoria)}</span>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">{receita.nomeReceita}</h1>
-                <div className="flex items-center space-x-3 mt-2">
-                  <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 mb-4 animate-fade-in-delay">
+              <span className="text-3xl animate-pulse-glow">{getCategoryIcon(receita.categoria)}</span>
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white animate-fade-in-up break-words">{receita.nomeReceita}</h1>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2 animate-stagger-children">
+                  <span className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-full text-sm transition-all duration-300 hover:scale-105">
                     {receita.categoria}
                   </span>
-                  <span className={`px-3 py-1 rounded-full text-sm ${getDifficultyColor(receita.dificuldade)}`}>
+                  <span className={`px-3 py-1 rounded-full text-sm transition-all duration-300 hover:scale-105 ${getDifficultyColor(receita.dificuldade)}`}>
                     {receita.dificuldade}
                   </span>
                 </div>
@@ -93,109 +93,114 @@ const ReceitaDetail: React.FC = () => {
             </div>
             
             {receita.notas && (
-              <p className="text-gray-600 text-lg mb-4">{receita.notas}</p>
+              <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg mb-4 animate-fade-in-delay break-words">{receita.notas}</p>
             )}
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="bg-blue-50 p-3 rounded-lg">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-center animate-stagger-children">
+              <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-md animate-fade-in-up">
                 <div className="text-2xl mb-1">⏱️</div>
-                <div className="text-sm text-gray-600">Tempo</div>
-                <div className="font-semibold">{receita.tempoPreparo}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Tempo</div>
+                <div className="font-semibold text-gray-900 dark:text-white">{receita.tempoPreparo}</div>
               </div>
-              <div className="bg-green-50 p-3 rounded-lg">
+              <div className="bg-green-50 dark:bg-green-900/30 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-md animate-fade-in-up">
                 <div className="text-2xl mb-1">👥</div>
-                <div className="text-sm text-gray-600">Porções</div>
-                <div className="font-semibold">{receita.rendimento}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Porções</div>
+                <div className="font-semibold text-gray-900 dark:text-white">{receita.rendimento}</div>
               </div>
-              <div className="bg-yellow-50 p-3 rounded-lg">
+              <div className="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-md animate-fade-in-up">
                 <div className="text-2xl mb-1">📊</div>
-                <div className="text-sm text-gray-600">Dificuldade</div>
-                <div className="font-semibold">{receita.dificuldade}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Dificuldade</div>
+                <div className="font-semibold text-gray-900 dark:text-white">{receita.dificuldade}</div>
               </div>
-              <div className="bg-purple-50 p-3 rounded-lg">
+              <div className="bg-purple-50 dark:bg-purple-900/30 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-md animate-fade-in-up">
                 <div className="text-2xl mb-1">🏷️</div>
-                <div className="text-sm text-gray-600">Categoria</div>
-                <div className="font-semibold">{receita.categoria}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Categoria</div>
+                <div className="font-semibold text-gray-900 dark:text-white">{receita.categoria}</div>
               </div>
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 mt-4 sm:mt-0">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 w-full sm:w-auto animate-stagger-children">
             {isNotReceitaOwner() ? (
               <button
                 disabled
-                className="bg-gray-400 text-white px-4 py-2 rounded-md cursor-not-allowed opacity-50 text-center"
+                className="w-full sm:w-auto bg-gray-400 text-white px-4 py-2 rounded-md cursor-not-allowed opacity-50 text-center transition-all duration-300"
               >
-                ✏️ Editar
+                <span className="sm:hidden">✏️ Editar</span>
+                <span className="hidden sm:inline">✏️ Editar</span>
               </button>
             ) : (
               <Link
                 to={`/receitas/${receita.receitaId}/editar`}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-center"
+                className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all duration-300 text-center hover:scale-105 hover:shadow-lg"
               >
-                ✏️ Editar
+                <span className="sm:hidden">✏️ Editar</span>
+                <span className="hidden sm:inline">✏️ Editar</span>
               </Link>
             )}
             <button
               onClick={() => setDeleteModalOpen(true)}
               disabled={isNotReceitaOwner()}
-              className={`px-4 py-2 rounded-md transition-colors ${
+              className={`w-full sm:w-auto px-4 py-2 rounded-md transition-all duration-300 ${
                 isNotReceitaOwner() 
                   ? 'bg-gray-400 text-white cursor-not-allowed opacity-50'
-                  : 'bg-red-600 text-white hover:bg-red-700'
+                  : 'bg-red-600 text-white hover:bg-red-700 hover:scale-105 hover:shadow-lg'
               }`}
             >
-              🗑️ Excluir
+              <span className="sm:hidden">🗑️ Excluir</span>
+              <span className="hidden sm:inline">🗑️ Excluir</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* Images Gallery */}
-      <ReceitaImageGallery receitaId={receita.receitaId} />
+      <div className="animate-fade-in-delay">
+        <ReceitaImageGallery receitaId={receita.receitaId} />
+      </div>
 
       {/* Ingredients */}
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow animate-fade-in-up transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700">
         <div 
-          className="p-6 border-b cursor-pointer hover:bg-gray-50 transition-colors"
+          className="p-6 border-b border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300"
           onClick={() => setShowIngredients(!showIngredients)}
         >
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center animate-fade-in-delay">
               🥕 Ingredientes
               {ingredientes && (
-                <span className="ml-2 text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                <span className="ml-2 text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full transition-all duration-300 hover:scale-110">
                   {ingredientes.length || 0}
                 </span>
               )}
             </h2>
-            <span className={`transform transition-transform ${showIngredients ? 'rotate-180' : ''}`}>
+            <span className={`transform transition-all duration-300 ${showIngredients ? 'rotate-180' : ''}`}>
               ▼
             </span>
           </div>
         </div>
         
         {showIngredients && (
-          <div className="p-6">
+          <div className="p-6 animate-fade-in">
             {loadingIngredientes ? (
               <Loading text="Carregando ingredientes..." />
             ) : ingredientes && ingredientes.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 animate-stagger-children">
                 {ingredientes.map((ingrediente: ReceitaIngrediente, index: number) => (
-                   <div key={`${ingrediente.receitaId}-${ingrediente.produtoId}-${index}`} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                     <div className="flex items-center space-x-3">
-                       <span className="text-2xl">🥄</span>
-                       <div>
-                         <div className="font-medium text-gray-900">
+                   <div key={`${ingrediente.receitaId}-${ingrediente.produtoId}-${index}`} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-md animate-fade-in-up">
+                     <div className="flex items-center space-x-3 flex-1 min-w-0">
+                       <span className="text-xl sm:text-2xl animate-pulse-glow flex-shrink-0">🥄</span>
+                       <div className="min-w-0 flex-1">
+                         <div className="font-medium text-gray-900 dark:text-white truncate">
                            {ingrediente.produto?.nome || 'Produto não encontrado'}
                          </div>
-                         <div className="text-sm text-gray-600">
+                         <div className="text-sm text-gray-600 dark:text-gray-400 truncate">
                            {ingrediente.produto?.categoria || ''}
                          </div>
                        </div>
                      </div>
-                     <div className="text-right">
-                       <div className="font-semibold text-gray-900">
+                     <div className="text-right flex-shrink-0 ml-2">
+                       <div className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
                          {ingrediente.quantidade} {ingrediente.unidadeMedida}
                        </div>
                      </div>
@@ -203,15 +208,17 @@ const ReceitaDetail: React.FC = () => {
                  ))}
               </div>
             ) : (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">🥕</div>
-                <p className="text-gray-600 mb-4">Nenhum ingrediente cadastrado</p>
-                <Link
-                  to={`/receitas/${receita.receitaId}/editar`}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Adicionar ingredientes
-                </Link>
+              <div className="text-center py-8 animate-fade-in">
+                <div className="text-4xl mb-4 animate-pulse">🥕</div>
+                <p className="text-gray-600 mb-4 animate-fade-in-delay">Nenhum ingrediente cadastrado</p>
+                <div className="animate-fade-in-up">
+                  <Link
+                    to={`/receitas/${receita.receitaId}/editar`}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    Adicionar ingredientes
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -219,37 +226,39 @@ const ReceitaDetail: React.FC = () => {
       </div>
 
       {/* Instructions */}
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow animate-fade-in-up transition-all duration-300 hover:shadow-lg border border-gray-100 dark:border-gray-700">
         <div 
-          className="p-6 border-b cursor-pointer hover:bg-gray-50 transition-colors"
+          className="p-6 border-b border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300"
           onClick={() => setShowInstructions(!showInstructions)}
         >
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">📝 Modo de Preparo</h2>
-            <span className={`transform transition-transform ${showInstructions ? 'rotate-180' : ''}`}>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white animate-fade-in-delay">📝 Modo de Preparo</h2>
+            <span className={`transform transition-all duration-300 text-gray-600 dark:text-gray-400 ${showInstructions ? 'rotate-180' : ''}`}>
               ▼
             </span>
           </div>
         </div>
         
         {showInstructions && (
-          <div className="p-6">
+          <div className="p-6 animate-fade-in">
             {receita.modoPreparo ? (
-              <div className="prose max-w-none">
-                <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+              <div className="prose max-w-none animate-fade-in-up">
+                <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
                   {receita.modoPreparo}
                 </div>
               </div>
             ) : (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">📝</div>
-                <p className="text-gray-600 mb-4">Modo de preparo não informado</p>
-                <Link
-                  to={`/receitas/${receita.receitaId}/editar`}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Adicionar instruções
-                </Link>
+              <div className="text-center py-8 animate-fade-in">
+                <div className="text-4xl mb-4 animate-pulse">📝</div>
+                <p className="text-gray-600 dark:text-gray-400 mb-4 animate-fade-in-delay">Modo de preparo não informado</p>
+                <div className="animate-fade-in-up">
+                  <Link
+                    to={`/receitas/${receita.receitaId}/editar`}
+                    className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  >
+                    Adicionar instruções
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -258,19 +267,19 @@ const ReceitaDetail: React.FC = () => {
 
       {/* Notes */}
       {receita.notas && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-yellow-800 mb-3 flex items-center">
+        <div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded-lg p-6 animate-fade-in-up transition-all duration-300 hover:shadow-md">
+          <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-3 flex items-center animate-fade-in-delay">
             💡 Notas
           </h3>
-          <p className="text-yellow-700 whitespace-pre-wrap">{receita.notas}</p>
+          <p className="text-yellow-700 dark:text-yellow-300 whitespace-pre-wrap animate-fade-in">{receita.notas}</p>
         </div>
       )}
 
       {/* Back Button */}
-      <div className="flex justify-center">
+      <div className="flex justify-center animate-fade-in-up px-4 sm:px-0">
         <Link
           to="/receitas"
-          className="bg-gray-600 text-white px-6 py-3 rounded-md hover:bg-gray-700 transition-colors"
+          className="w-full sm:w-auto bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white px-6 py-3 rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg text-center"
         >
           ← Voltar para receitas
         </Link>
@@ -282,24 +291,24 @@ const ReceitaDetail: React.FC = () => {
         onClose={() => setDeleteModalOpen(false)}
         title="Confirmar Exclusão"
       >
-        <div className="space-y-4">
-          <p className="text-gray-600">
-            Tem certeza que deseja excluir a receita <strong>{receita.nomeReceita}</strong>?
+        <div className="space-y-4 animate-fade-in">
+          <p className="text-gray-600 dark:text-gray-300 animate-fade-in-delay">
+            Tem certeza que deseja excluir a receita <strong className="text-gray-900 dark:text-white">{receita.nomeReceita}</strong>?
           </p>
-          <p className="text-sm text-red-600">
+          <p className="text-sm text-red-600 dark:text-red-400 animate-shake-and-fade-in">
             Esta ação não pode ser desfeita e todos os ingredientes associados também serão removidos.
           </p>
-          <div className="flex space-x-3 justify-end">
+          <div className="flex flex-col sm:flex-row gap-3 sm:justify-end animate-stagger-children">
             <button
               onClick={() => setDeleteModalOpen(false)}
-              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="w-full sm:w-auto px-4 py-2 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105"
             >
               Cancelar
             </button>
             <button
               onClick={handleDelete}
               disabled={deleteReceitaMutation.isPending}
-              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50"
+              className="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white rounded-md transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50"
             >
               {deleteReceitaMutation.isPending ? 'Excluindo...' : 'Excluir'}
             </button>

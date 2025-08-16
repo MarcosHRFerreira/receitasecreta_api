@@ -1,0 +1,204 @@
+/* Animações customizadas para o formulário de login */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake-and-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  25% {
+    opacity: 0.5;
+    transform: translateX(10px);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translateX(-5px);
+  }
+  75% {
+    opacity: 0.9;
+    transform: translateX(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+}
+
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes typing {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes stagger-children {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Classes de animação */
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.8s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.7s ease-out;
+}
+
+.animate-fade-in-delay {
+  animation: fade-in 0.6s ease-out 0.2s both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out 0.4s both;
+}
+
+.animate-shake-and-fade-in {
+  animation: shake-and-fade-in 0.6s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.animate-typing {
+  animation: typing 1.5s ease-in-out infinite;
+}
+
+.animate-stagger-children > * {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-stagger-children > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-stagger-children > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-stagger-children > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.animate-stagger-children > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* Sombra 3D customizada */
+.hover\:shadow-3xl:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Transições suaves para todos os elementos interativos */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeitos de hover melhorados */
+.hover\:scale-\[1\.02\]:hover {
+  transform: scale(1.02);
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Responsividade das animações */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-down,
+  .animate-slide-up,
+  .animate-fade-in-delay,
+  .animate-fade-in-up,
+  .animate-shake-and-fade-in,
+  .animate-pulse-glow,
+  .animate-gradient,
+  .animate-typing,
+  .animate-stagger-children > * {
+    animation: none;
+  }
+  
+  .transition-all {
+    transition: none;
+  }
+}

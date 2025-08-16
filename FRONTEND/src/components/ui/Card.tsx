@@ -7,21 +7,32 @@ interface CardProps {
   className?: string;
   hover?: boolean;
   padding?: 'none' | 'sm' | 'md' | 'lg';
+  role?: string;
+  ariaLabel?: string;
+  ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
+  tabIndex?: number;
 }
 
 interface CardHeaderProps {
   children: ReactNode;
   className?: string;
+  id?: string;
+  role?: string;
 }
 
 interface CardContentProps {
   children: ReactNode;
   className?: string;
+  id?: string;
+  role?: string;
 }
 
 interface CardFooterProps {
   children: ReactNode;
   className?: string;
+  id?: string;
+  role?: string;
 }
 
 type CardComponent = React.FC<CardProps> & {
@@ -34,7 +45,12 @@ const Card: CardComponent = ({
   children,
   className,
   hover = false,
-  padding = 'md'
+  padding = 'md',
+  role,
+  ariaLabel,
+  ariaLabelledBy,
+  ariaDescribedBy,
+  tabIndex
 }) => {
   const paddingClasses = {
     none: '',
@@ -44,36 +60,55 @@ const Card: CardComponent = ({
   };
 
   return (
-    <div className={cn(
-      'bg-white rounded-xl shadow-sm border border-gray-100',
-      hover && 'hover:shadow-lg hover:border-gray-200 transition-all duration-200',
-      paddingClasses[padding],
-      className
-    )}>
+    <div 
+      className={cn(
+        'bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700',
+        hover && 'hover:shadow-lg hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-200',
+        paddingClasses[padding],
+        className
+      )}
+      role={role}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      aria-describedby={ariaDescribedBy}
+      tabIndex={tabIndex}
+    >
       {children}
     </div>
   );
 };
 
-const CardHeader: React.FC<CardHeaderProps> = ({ children, className }) => {
+const CardHeader: React.FC<CardHeaderProps> = ({ children, className, id, role }) => {
   return (
-    <div className={cn('mb-4', className)}>
+    <div 
+      className={cn('border-b border-gray-100 dark:border-gray-700 pb-4 mb-4', className)}
+      id={id}
+      role={role || 'banner'}
+    >
       {children}
     </div>
   );
 };
 
-const CardContent: React.FC<CardContentProps> = ({ children, className }) => {
+const CardContent: React.FC<CardContentProps> = ({ children, className, id, role }) => {
   return (
-    <div className={cn(className)}>
+    <div 
+      className={cn(className)}
+      id={id}
+      role={role || 'main'}
+    >
       {children}
     </div>
   );
 };
 
-const CardFooter: React.FC<CardFooterProps> = ({ children, className }) => {
+const CardFooter: React.FC<CardFooterProps> = ({ children, className, id, role }) => {
   return (
-    <div className={cn('mt-4 pt-4 border-t border-gray-100', className)}>
+    <div 
+      className={cn('border-t border-gray-100 dark:border-gray-700 pt-4 mt-4', className)}
+      id={id}
+      role={role || 'contentinfo'}
+    >
       {children}
     </div>
   );

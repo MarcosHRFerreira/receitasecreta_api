@@ -1,3 +1,6 @@
+/* Importar animações customizadas */
+@import './styles/animations.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -221,12 +224,26 @@ body {
   overflow-y: auto;
 }
 
+.dark .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.dark .modal-content {
+  background-color: #1f2937;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
 /* Estilos para loading spinner */
 .spinner {
   border: 3px solid #f3f3f3;
   border-top: 3px solid #3498db;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+}
+
+.dark .spinner {
+  border: 3px solid #374151;
+  border-top: 3px solid #60a5fa;
 }
 
 @keyframes spin {
@@ -269,6 +286,32 @@ body {
   color: #374151;
 }
 
+/* Dark mode badges */
+.dark .badge-primary {
+  background-color: #1e3a8a;
+  color: #93c5fd;
+}
+
+.dark .badge-success {
+  background-color: #14532d;
+  color: #86efac;
+}
+
+.dark .badge-warning {
+  background-color: #78350f;
+  color: #fcd34d;
+}
+
+.dark .badge-danger {
+  background-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+.dark .badge-secondary {
+  background-color: #374151;
+  color: #d1d5db;
+}
+
 /* Estilos para alertas */
 .alert {
   padding: 1rem;
@@ -297,4 +340,29 @@ body {
   background-color: #eff6ff;
   border: 1px solid #bfdbfe;
   color: #1e40af;
+}
+
+/* Dark mode alerts */
+.dark .alert-success {
+  background-color: #14532d;
+  border: 1px solid #166534;
+  color: #86efac;
+}
+
+.dark .alert-error {
+  background-color: #7f1d1d;
+  border: 1px solid #991b1b;
+  color: #fca5a5;
+}
+
+.dark .alert-warning {
+  background-color: #78350f;
+  border: 1px solid #92400e;
+  color: #fcd34d;
+}
+
+.dark .alert-info {
+  background-color: #1e3a8a;
+  border: 1px solid #1e40af;
+  color: #93c5fd;
 }

@@ -24,7 +24,7 @@ const ReceitaImageGallery: React.FC<ReceitaImageGalleryProps> = ({
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <Loading text="Carregando imagens..." />
       </div>
     );
@@ -54,17 +54,17 @@ const ReceitaImageGallery: React.FC<ReceitaImageGalleryProps> = ({
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
         {showTitle && (
           <div 
-            className="p-6 border-b cursor-pointer hover:bg-gray-50 transition-colors"
+            className="p-6 border-b dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             onClick={() => setShowGallery(!showGallery)}
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                 📸 Imagens da Receita
                 {hasImages && (
-                  <span className="ml-2 text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                  <span className="ml-2 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full">
                     {allImages.length}
                   </span>
                 )}
@@ -113,7 +113,7 @@ const ReceitaImageGallery: React.FC<ReceitaImageGalleryProps> = ({
             {!hasImages && (
               <div className="text-center py-8">
                 <div className="text-4xl mb-4">📸</div>
-                <p className="text-gray-600 mb-4">Nenhuma imagem cadastrada para esta receita</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">Nenhuma imagem cadastrada para esta receita</p>
               </div>
             )}
           </div>
@@ -135,15 +135,15 @@ const ReceitaImageGallery: React.FC<ReceitaImageGalleryProps> = ({
               className="w-full max-w-2xl mx-auto max-h-80 object-contain rounded-lg"
             />
             {selectedImage.descricao && (
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">Descrição:</h4>
-                <p className="text-gray-700">{selectedImage.descricao}</p>
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                <h4 className="font-medium text-gray-900 dark:text-white mb-2">Descrição:</h4>
+                <p className="text-gray-700 dark:text-gray-300">{selectedImage.descricao}</p>
               </div>
             )}
             <div className="flex justify-end">
               <button
                 onClick={closeImageModal}
-                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
               >
                 Fechar
               </button>
