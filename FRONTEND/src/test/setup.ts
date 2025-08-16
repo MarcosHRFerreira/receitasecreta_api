@@ -91,7 +91,7 @@ process.env.TZ = 'UTC';
 // Suprimir warnings específicos do React durante os testes
 const originalError = console.error;
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args: unknown[]) => {
     if (
       typeof args[0] === 'string' &&
       args[0].includes('Warning: ReactDOM.render is deprecated')

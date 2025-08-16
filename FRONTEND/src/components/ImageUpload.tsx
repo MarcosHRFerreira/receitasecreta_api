@@ -1,12 +1,10 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useImageUpload } from '../hooks/useImageUpload';
-import type { ReceitaImagemResponseDto } from '../types';
 import Button from './ui/Button';
 import Card from './ui/Card';
 
 interface ImageUploadProps {
   receitaId: string;
-  onImageUploaded?: (imagem: ReceitaImagemResponseDto) => void;
   onImageDeleted?: (imagemId: string) => void;
   maxFiles?: number;
   acceptedTypes?: string[];
@@ -25,7 +23,6 @@ interface UploadProgress {
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({
   receitaId,
-  onImageUploaded,
   onImageDeleted,
   maxFiles = 10,
   acceptedTypes = ['image/jpeg', 'image/png', 'image/webp'],
@@ -154,13 +151,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       if (file.preview) {
         URL.revokeObjectURL(file.preview);
       }
-
-      // onImageUploaded será chamado quando a mutation for bem-sucedida
     } catch (error) {
       console.error('Erro no upload:', error);
       setErrors(prev => [...prev, `Erro no upload de ${file.name}: ${error}`]);
     }
-  }, [uploadSingleImage, onImageUploaded, receitaId, imagens]);
+  }, [uploadSingleImage, receitaId, imagens]);
 
   // Upload de todos os arquivos
   const handleUploadAll = useCallback(async () => {

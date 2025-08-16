@@ -1,4 +1,4 @@
-import React, { forwardRef, useId } from 'react';
+import { forwardRef, useId } from 'react';
 import type { ReactNode, InputHTMLAttributes } from 'react';
 import { cn } from '../../utils/cn';
 

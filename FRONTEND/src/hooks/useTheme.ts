@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -11,13 +11,6 @@ interface UseThemeReturn {
 const THEME_STORAGE_KEY = 'receita-secreta-theme';
 
 export const useTheme = (): UseThemeReturn => {
-  // Função para detectar preferência do sistema
-  const getSystemTheme = (): Theme => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    return 'light';
-  };
 
   // Função para obter tema inicial
   const getInitialTheme = (): Theme => {
@@ -53,11 +46,11 @@ export const useTheme = (): UseThemeReturn => {
   };
 
   // Função para definir tema
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
     applyTheme(newTheme);
     saveTheme(newTheme);
-  };
+  }, []);
 
   // Função para alternar tema
   const toggleTheme = () => {
@@ -68,7 +61,7 @@ export const useTheme = (): UseThemeReturn => {
   // Aplicar tema inicial
   useEffect(() => {
     applyTheme(theme);
-  }, []);
+  }, [theme]);
 
   // Escutar mudanças na preferência do sistema
   useEffect(() => {
@@ -90,7 +83,7 @@ export const useTheme = (): UseThemeReturn => {
         mediaQuery.removeEventListener('change', handleChange);
       };
     }
-  }, []);
+  }, [setTheme]);
 
   return {
     theme,

@@ -229,8 +229,8 @@ export interface ReceitaFormData {
   nomeReceita: string;
   categoria: CategoriaReceita;
   dificuldade: Dificuldade;
-  tempoPreparo: number;
-  rendimento: number;
+  tempoPreparo: string;
+  rendimento: string;
   modoPreparo: string;
   notas?: string;
   tags?: string;

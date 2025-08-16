@@ -33,11 +33,9 @@ public record ReceitaRecordDto(
         Dificuldade dificuldade,
 
         @Schema(description = "Notas ou ajustes personalizados", example = "Adicionar o leite morno")
-        @NotBlank(message = "Notas ou ajustes personalizados")
         String notas,
 
         @Schema(description = "Tags para facilitar a busca", example = "bolo de chocolate")
-        @NotBlank(message = "Tags para facilitar a busca")
         String tags,
 
         @Schema(description = "Indica se a receita está marcada como favorita", example = "True")

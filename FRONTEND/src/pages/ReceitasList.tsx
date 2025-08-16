@@ -67,7 +67,7 @@ const ReceitasList: React.FC = () => {
   const handleDelete = async () => {
     if (receitaToDelete) {
       try {
-        await deleteReceitaMutation.mutateAsync(receitaToDelete.id);
+        await deleteReceitaMutation.mutateAsync(receitaToDelete.receitaId);
         setDeleteModalOpen(false);
         setReceitaToDelete(null);
       } catch (error) {
@@ -108,13 +108,14 @@ const ReceitasList: React.FC = () => {
           title="Receitas"
           subtitle="Gerencie suas receitas culinárias"
           icon={<ChefHatIcon />}
-        >
-          <Link to="/receitas/nova">
-            <Button icon={<PlusIcon />} className="transition-all duration-300 hover:scale-105 hover:shadow-lg">
-              Nova Receita
-            </Button>
-          </Link>
-        </PageHeader>
+          actions={
+            <Link to="/receitas/nova">
+              <Button icon={<PlusIcon />} className="transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                Nova Receita
+              </Button>
+            </Link>
+          }
+        />
       </div>
 
       <div className="animate-fade-in-delay">

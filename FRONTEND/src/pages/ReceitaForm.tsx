@@ -36,8 +36,8 @@ const ReceitaForm: React.FC = () => {
       nomeReceita: '',
       categoria: 'BOLO' as const,
       dificuldade: 'FACIL',
-      tempoPreparo: 0,
-      rendimento: 0,
+      tempoPreparo: '',
+      rendimento: '',
       modoPreparo: '',
       notas: '',
       tags: '',
@@ -54,8 +54,8 @@ const ReceitaForm: React.FC = () => {
         nomeReceita: receita.nomeReceita,
         categoria: receita.categoria,
         dificuldade: receita.dificuldade,
-        tempoPreparo: parseInt(receita.tempoPreparo) || 0,
-        rendimento: parseInt(receita.rendimento) || 0,
+        tempoPreparo: receita.tempoPreparo || '',
+        rendimento: receita.rendimento || '',
         modoPreparo: receita.modoPreparo || '',
         notas: receita.notas || '',
         tags: receita.tags || '',
@@ -86,8 +86,8 @@ const ReceitaForm: React.FC = () => {
         nomeReceita: formData.nomeReceita,
         categoria: formData.categoria,
         dificuldade: formData.dificuldade,
-        tempoPreparo: formData.tempoPreparo.toString(),
-        rendimento: formData.rendimento.toString(),
+        tempoPreparo: formData.tempoPreparo,
+        rendimento: formData.rendimento,
         modoPreparo: formData.modoPreparo,
         notas: formData.notas,
         tags: formData.tags,
@@ -304,9 +304,6 @@ const ReceitaForm: React.FC = () => {
             <div className="animate-fade-in">
               <ImageUpload 
                 receitaId={id}
-                onImageUploaded={(imagem) => {
-                  console.log('Nova imagem adicionada:', imagem);
-                }}
                 onImageDeleted={(imagemId) => {
                   console.log('Imagem removida:', imagemId);
                 }}

@@ -117,6 +117,12 @@ public class DataLoader implements CommandLineRunner {
         produto.setUnidademedida(unidade);
         produto.setDataCriacao(LocalDateTime.now());
         produto.setDataAlteracao(LocalDateTime.now());
+        
+        // Campos de auditoria obrigatórios
+        produto.setUserId("system");
+        produto.setCreatedBy("system");
+        produto.setCreatedAt(LocalDateTime.now());
+        
         return produto;
     }
 
@@ -200,6 +206,10 @@ public class DataLoader implements CommandLineRunner {
         receita.setUserId(userId);
         receita.setDataCriacao(LocalDateTime.now());
         receita.setDataAlteracao(LocalDateTime.now());
+        // Campos obrigatórios de auditoria
+        receita.setCreatedBy(userId);
+        receita.setCreatedAt(LocalDateTime.now());
+        receita.setUpdatedBy(userId);
         return receita;
     }
     

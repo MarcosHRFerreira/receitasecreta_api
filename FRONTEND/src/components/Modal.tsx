@@ -76,7 +76,11 @@ const Modal: React.FC<ModalProps> = ({
         const firstFocusable = modalRef.current?.querySelector(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         ) as HTMLElement;
-        firstFocusable?.focus() || modalRef.current?.focus();
+        if (firstFocusable) {
+          firstFocusable.focus();
+        } else {
+          modalRef.current?.focus();
+        }
       }, 0);
     }
 

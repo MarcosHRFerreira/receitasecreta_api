@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
         role="region"
         aria-label="Estatísticas do sistema"
       >
-        {stats.map((stat, index) => (
+        {stats.map((stat) => (
           <Link 
             key={stat.name} 
             to={stat.link} 

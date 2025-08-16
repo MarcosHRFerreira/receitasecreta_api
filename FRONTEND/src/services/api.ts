@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosInstance, AxiosResponse, AxiosProgressEvent } from 'axios';
+import type { AxiosInstance, AxiosResponse, AxiosProgressEvent, AxiosError } from 'axios';
 import type {
   User,
   Produto,
@@ -403,8 +403,9 @@ class ApiService {
       );
       console.log('🌐 [API] Imagem principal obtida:', response.data);
       return response.data;
-    } catch (error: any) {
-      if (error.response?.status === 404) {
+    } catch (error: unknown) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 404) {
         console.log('🌐 [API] Nenhuma imagem principal encontrada para a receita:', receitaId);
         return null;
       }

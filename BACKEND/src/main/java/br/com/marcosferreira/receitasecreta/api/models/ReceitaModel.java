@@ -26,7 +26,7 @@ public class ReceitaModel implements Serializable {
     @Column(name = "nomereceita", nullable = false)
     private String nomeReceita;
 
-    @Column(name = "modopreparo", nullable = false)
+    @Column(name = "modopreparo", nullable = false, columnDefinition = "TEXT")
     private String modoPreparo;
 
     @Column(name = "tempopreparo", nullable = false)
@@ -43,7 +43,7 @@ public class ReceitaModel implements Serializable {
     @Enumerated(EnumType.STRING)
     private Dificuldade dificuldade;
 
-    @Column(name = "notas")
+    @Column(name = "notas", columnDefinition = "TEXT")
     private String notas;
 
     @Column(name = "tags")
